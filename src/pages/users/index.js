@@ -2,17 +2,17 @@ import { fetchData } from '@/utils/api'
 import useSWR from 'swr'
 
 export async function getServerSideProps() {
-  const userInitialData = await fetchData(`/users`)
+  const initialData = await fetchData(`/users`)
   return {
     props: {
-      userInitialData
+      initialData
     }
   }
 }
 
-export default function UsersPage({ userInitialData }) {
-  const { data, error } = useSWR('/users', fetchData, {
-    fallbackData: userInitialData
+export default function UsersPage({ initialData }) {
+  const { data, error } = useSWR('/users', {
+    fallbackData: initialData
   })
 
   if (error) return <div>Error loading data.</div>
