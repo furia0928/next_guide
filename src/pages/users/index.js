@@ -1,7 +1,7 @@
-import { fetchWrapper } from "@/utils/api";
+import { fetchData } from '@/utils/api'
 
 export default async function UsersPage() {
-  const users = await fetchWrapper("/users");
+  const users = await fetchData('/users')
 
   return (
     <div>
@@ -12,5 +12,6 @@ export default async function UsersPage() {
         ))}
       </ul>
     </div>
-  );
+  )
 }
+K
