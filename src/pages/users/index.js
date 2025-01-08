@@ -1,5 +1,6 @@
 import { fetchData } from '@/utils/api'
 import useSWR from 'swr'
+import CustomLayout from '@/components/layout/CustomLayout'
 
 export async function getServerSideProps() {
   const initialData = await fetchData(`/users`)
@@ -30,4 +31,8 @@ export default function UsersPage({ initialData }) {
       </ul>
     </div>
   )
+}
+
+UsersPage.getLayout = function getLayout(page) {
+  return <CustomLayout>{page}</CustomLayout>
 }

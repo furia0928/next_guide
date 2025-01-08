@@ -5,7 +5,11 @@ import ErrorFallback from '@/components/ErrorFallback'
 import { fetchData } from '@/utils/api'
 import { Global } from '@emotion/react'
 import globalStyles from '@/styles/globalStyles'
+import DefaultLayout from '@/components/layout/DefaultLayout'
+
 export default function App({ Component, pageProps }) {
+  const getLayout =
+    Component.getLayout || ((page) => <DefaultLayout>{page}</DefaultLayout>)
   return (
     <ErrorBoundary
       FallbackComponent={ErrorFallback}
@@ -20,7 +24,7 @@ export default function App({ Component, pageProps }) {
         }}
       >
         <Global styles={globalStyles} />
-        <Component {...pageProps} />
+        {getLayout(<Component {...pageProps} />)}
       </SWRConfig>
     </ErrorBoundary>
   )
