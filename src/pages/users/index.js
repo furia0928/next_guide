@@ -1,14 +1,31 @@
 import { fetchData } from '@/utils/api'
+import useSWR from 'swr'
 
-export default async function UsersPage() {
-  const users = await fetchData('/users')
+export async function getServerSideProps() {
+  const userInitialData = await fetchData(`/users`)
+  return {
+    props: {
+      userInitialData
+    }
+  }
+}
+
+export default function UsersPage({ userInitialData }) {
+  const { data, error } = useSWR('/users', fetchData, {
+    fallbackData: userInitialData
+  })
+
+  if (error) return <div>Error loading data.</div>
+  if (!data) return <div>Loading...</div>
 
   return (
     <div>
-      <h1>사용자 목록</h1>
+      <h1>Users</h1>
       <ul>
-        {users.map((user) => (
-          <li key={user.id}>{user.name}</li>
+        {data.map((user) => (
+          <li key={user.id}>
+            {user.name} ({user.email})
+          </li>
         ))}
       </ul>
     </div>

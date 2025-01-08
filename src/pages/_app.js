@@ -3,6 +3,8 @@ import { SWRConfig } from 'swr'
 import { ErrorBoundary } from 'react-error-boundary'
 import ErrorFallback from '@/components/ErrorFallback'
 import { fetchData } from '@/utils/api'
+import { Global } from '@emotion/react'
+import globalStyles from '@/styles/globalStyles'
 export default function App({ Component, pageProps }) {
   return (
     <ErrorBoundary
@@ -17,6 +19,7 @@ export default function App({ Component, pageProps }) {
           fetcher: fetchData
         }}
       >
+        <Global styles={globalStyles} />
         <Component {...pageProps} />
       </SWRConfig>
     </ErrorBoundary>
