@@ -1,6 +1,5 @@
-// pages/_document.js
-import { Html, Head, Main, NextScript } from 'next/document'
-import { extractCritical } from '@emotion/server'
+import { Html, Head, Main, NextScript } from 'next/document';
+import { extractCritical } from '@emotion/server';
 
 export default function Document({ styles }) {
   return (
@@ -11,19 +10,19 @@ export default function Document({ styles }) {
         <NextScript />
       </body>
     </Html>
-  )
+  );
 }
 
 Document.getInitialProps = async (ctx) => {
-  const originalRenderPage = ctx.renderPage
+  const originalRenderPage = ctx.renderPage;
 
   const renderPage = () =>
     originalRenderPage({
-      enhanceApp: (App) => (props) => props
-    })
+      enhanceApp: (App) => (props) => props,
+    });
 
-  const initialProps = await ctx.defaultGetInitialProps(ctx, renderPage)
-  const styles = extractCritical(initialProps.html)
+  const initialProps = await ctx.defaultGetInitialProps(ctx, renderPage);
+  const styles = extractCritical(initialProps.html);
 
   return {
     ...initialProps,
@@ -35,6 +34,6 @@ Document.getInitialProps = async (ctx) => {
           dangerouslySetInnerHTML={{ __html: styles.css }}
         />
       </>
-    )
-  }
-}
+    ),
+  };
+};
