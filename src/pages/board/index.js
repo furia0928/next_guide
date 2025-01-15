@@ -2,6 +2,7 @@ import useSWR from 'swr'
 import { useState } from 'react'
 import { fetchData } from '@/utils/api'
 import { css } from '@emotion/react'
+import Header from '@/components/layout/Header'
 
 const container = css`
   max-width: 800px;
@@ -74,6 +75,7 @@ export default function Board({ initialData }) {
 
   return (
     <div css={container}>
+      <Header />
       <h1 className="title">Board</h1>
 
       <div>
