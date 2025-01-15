@@ -1,8 +1,22 @@
 import useSWR from 'swr'
 import { useState } from 'react'
 import { fetchData } from '@/utils/api'
-import * as styles from './index.styles'
+import { css } from '@emotion/react'
 
+const container = css`
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  .title {
+    border-bottom: 1px solid red;
+    margin-bottom: 50px;
+    padding-bottom: 50px;
+  }
+`
 export async function getServerSideProps() {
   const initialData = await fetchData(`/posts`)
   return {
@@ -59,7 +73,7 @@ export default function Board({ initialData }) {
   }
 
   return (
-    <div css={styles.container}>
+    <div css={container}>
       <h1 className="title">Board</h1>
 
       <div>

@@ -1,5 +1,9 @@
+import withBundleAnalyzer from '@next/bundle-analyzer'
+
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+const nextConfig = withBundleAnalyzer({
+  enabled: process.env.ANALYZE === 'true'
+})({
   reactStrictMode: true,
   compiler: {
     emotion: true
@@ -16,6 +20,6 @@ const nextConfig = {
       return []
     }
   }
-}
+})
 
 export default nextConfig
