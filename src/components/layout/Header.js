@@ -1,9 +1,15 @@
 import Link from 'next/link'
+import { router } from 'next/client'
 
 function Header() {
+  const backButtonClick = () => {
+    router.back()
+  }
   return (
     <header>
-      커스텀 헤더
+      <button type="button" onClick={backButtonClick}>
+        뒤로가기
+      </button>
       <ul>
         <li>
           <Link href="/">홈</Link>

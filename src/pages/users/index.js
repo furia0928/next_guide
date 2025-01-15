@@ -16,9 +16,6 @@ export default function UsersPage({ initialData }) {
     fallbackData: initialData
   })
 
-  if (error) return <div>Error loading data.</div>
-  if (!data) return <div>Loading...</div>
-
   return (
     <div>
       <h1>Users</h1>
