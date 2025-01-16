@@ -1,5 +1,4 @@
 export const Users = ({ users }) => {
-  console.log(users);
   return (
     <>
       <h2>user</h2>
