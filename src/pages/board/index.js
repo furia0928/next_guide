@@ -2,12 +2,14 @@ import useSWR from 'swr';
 import { Posts } from '@/components/ui/Posts';
 import { Users } from '@/components/ui/Users';
 import { withSSRProps } from '@/lib/axiosInstance';
+import useNumberStore from '@/store/numberStore';
 
 export const getServerSideProps = withSSRProps(() => {
   return ['/posts', '/users'];
 });
 
 export default function Board({ initialData }) {
+  const { number, increase, decrease, reset } = useNumberStore();
   const {
     data: posts,
     error,
@@ -19,12 +21,13 @@ export default function Board({ initialData }) {
     fallbackData: initialData['/users'],
   });
 
-  if (error) return <div>Failed to load posts</div>;
-  if (!posts) return <div>Loading...</div>;
-
   return (
     <>
       <h1 className="title">Board</h1>
+      <h1>Current Number: {number}</h1>
+      <button onClick={increase}>Increase</button>
+      <button onClick={decrease}>Decrease</button>
+      <button onClick={reset}>Reset</button>
       <Users users={users} />
       <Posts posts={posts} />
     </>
