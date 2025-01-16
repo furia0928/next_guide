@@ -1,6 +1,14 @@
+import { css } from '@emotion/react';
+
+const style = css`
+  padding: 20px;
+  background-color: #eee;
+  border-radius: 10px;
+`;
+
 export const PostsComments = ({ postsComments }) => {
   return (
-    <ul style={{ borderTop: '1px solid #ccc', marginTop: 100 }}>
+    <ul css={style}>
       {postsComments.map((comment) => (
         <li key={comment.id} style={{ borderBottom: '1px solid #ccc' }}>
           {comment.body}
