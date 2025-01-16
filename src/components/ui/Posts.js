@@ -5,10 +5,19 @@ const style = css`
   padding: 20px;
   background-color: #eee;
   border-radius: 10px;
-  li a {
-    display: block;
-    border-top: 1px solid red;
-    padding: 10px 0;
+
+  h2 {
+    color: #000;
+  }
+  li {
+    a {
+      color: #666;
+      display: block;
+      padding: 10px 0;
+    }
+    & + li a {
+      border-top: 1px solid red;
+    }
   }
 `;
 

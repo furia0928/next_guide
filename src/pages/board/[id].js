@@ -1,9 +1,9 @@
 import useSWR from 'swr';
-import { fetchSSRData } from '@/lib/axiosInstance';
 import { useRouter } from 'next/router';
 import { PostsComments } from '@/components/ui/PostsComments';
+import { withSSRProps } from '@/lib/axiosInstance';
 
-export const getServerSideProps = fetchSSRData((context) => {
+export const getServerSideProps = withSSRProps((context) => {
   const { id } = context.query;
   return [`/posts/${id}`, `/posts/${id}/comments`];
 });

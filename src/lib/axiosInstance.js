@@ -110,7 +110,7 @@ export const fetchData = async (url, method = 'GET', options = {}) => {
  * @param {function} endpointResolver - API 엔드포인트 생성 함수
  * @returns {function} - Next.js getServerSideProps 함수
  */
-export const fetchSSRData = (endpointResolver) => async (context) => {
+export const withSSRProps = (endpointResolver) => async (context) => {
   const endpoints =
     typeof endpointResolver === 'function'
       ? endpointResolver(context)
