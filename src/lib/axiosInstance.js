@@ -121,7 +121,6 @@ export const withSSRProps = (endpointResolver) => async (context) => {
     typeof endpointResolver === 'function'
       ? endpointResolver(context)
       : endpointResolver;
-  console.log('endpoints', endpoints);
   try {
     const results = await Promise.all(
       endpoints.map(

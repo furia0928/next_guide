@@ -1,8 +1,7 @@
-import '@/styles/globals.css';
 import { SWRConfig } from 'swr';
 import { ErrorBoundary } from 'react-error-boundary';
 import ErrorFallback from '@/components/ErrorFallback';
-import axiosInstance from '@/lib/axiosInstance';
+import { fetchData } from '@/lib/axiosInstance';
 import { Global } from '@emotion/react';
 import globalStyles from '@/styles/globalStyles';
 import Head from 'next/head';
@@ -18,7 +17,7 @@ export default function App({ Component, pageProps }) {
     >
       <SWRConfig
         value={{
-          fetcher: (url) => axiosInstance.get(url).then((res) => res.data),
+          fetcher: (url) => fetchData(url),
           onError: (error) => {
             console.error('SWR Error:', error);
           },
