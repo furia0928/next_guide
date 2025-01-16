@@ -1,9 +1,9 @@
 import useSWR from 'swr';
-import { withSSRProps } from '@/lib/axiosInstance';
+import { fetchSSRData } from '@/lib/axiosInstance';
 import { Posts } from '@/components/ui/Posts';
 import { Users } from '@/components/ui/Users';
 
-export const getServerSideProps = withSSRProps(() => {
+export const getServerSideProps = fetchSSRData(() => {
   return ['/posts', '/users'];
 });
 

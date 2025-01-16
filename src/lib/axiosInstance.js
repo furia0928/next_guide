@@ -86,24 +86,18 @@ axiosInstance.interceptors.response.use(
   }
 );
 
+export default axiosInstance;
+
 /**
- * fetchData 함수: 유연한 API 호출 유틸리티
+ * API 호출 유틸리티
  * @param {string} url - API 엔드포인트
- * @param {object} options - Axios 요청 옵션 (method, data, params 등)
+ * @param method
+ * @param {object} options - Axios 요청 옵션 (data, params 등)
  * @returns {Promise<object>} - API 응답 데이터
  */
-export const fetchData = async (url, options = {}) => {
-  const { method = 'GET', data = null, params = null, headers = {} } = options;
-
+export const fetchData = async (url, method = 'GET', options = {}) => {
   try {
-    const response = await axiosInstance.request({
-      url,
-      method,
-      data,
-      params,
-      headers,
-    });
-
+    const response = await axiosInstance({ method, url, ...options });
     return response.data;
   } catch (error) {
     console.error('fetchData error:', error);
@@ -116,7 +110,7 @@ export const fetchData = async (url, options = {}) => {
  * @param {function} endpointResolver - API 엔드포인트 생성 함수
  * @returns {function} - Next.js getServerSideProps 함수
  */
-export const withSSRProps = (endpointResolver) => async (context) => {
+export const fetchSSRData = (endpointResolver) => async (context) => {
   const endpoints =
     typeof endpointResolver === 'function'
       ? endpointResolver(context)
@@ -150,5 +144,3 @@ export const withSSRProps = (endpointResolver) => async (context) => {
     };
   }
 };
-
-export default axiosInstance;
