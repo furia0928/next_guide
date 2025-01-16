@@ -1,23 +1,32 @@
-import { fetchData } from '@/utils/api'
-import useSWR from 'swr'
-import Container from '@/components/layout/Container'
-import Header from '@/components/layout/Header'
-import Head from 'next/head'
-import Footer from '@/components/layout/Footer'
+import { fetchData } from '@/lib/axiosInstance';
+import useSWR from 'swr';
+import Container from '@/components/layout/Container';
+import Header from '@/components/layout/Header';
+import Head from 'next/head';
+import Footer from '@/components/layout/Footer';
+import { useEffect } from 'react';
 
 export async function getServerSideProps() {
-  const initialData = await fetchData(`/users`)
+  const initialData = await fetchData(`/users`);
   return {
     props: {
-      initialData
-    }
-  }
+      initialData,
+    },
+  };
 }
 
 export default function UsersPage({ initialData }) {
-  const { data, error } = useSWR('/users', {
-    fallbackData: initialData
-  })
+  const { data, error, isLoading, isValidating } = useSWR('/users', {
+    fallbackData: initialData,
+  });
+
+  useEffect(() => {
+    console.log('isLoading', isLoading);
+  }, [isLoading]);
+
+  useEffect(() => {
+    console.log('isValidating', isValidating);
+  }, [isValidating]);
 
   return (
     <>
@@ -40,5 +49,5 @@ export default function UsersPage({ initialData }) {
       </Container>
       <Footer />
     </>
-  )
+  );
 }

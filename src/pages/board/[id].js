@@ -4,6 +4,7 @@ import { css } from '@emotion/react';
 import Header from '@/components/layout/Header';
 import { Posts } from '@/components/ui/Posts';
 import { Users } from '@/components/ui/Users';
+import { useRouter } from 'next/router';
 
 const container = css`
   max-width: 800px;
@@ -19,30 +20,28 @@ const container = css`
     padding-bottom: 50px;
   }
 `;
+export const getServerSideProps = withSSRProps((context) => {
+  const { id } = context.query;
+  return [`/posts/${id}`];
+});
 
-export const getServerSideProps = withSSRProps(() => [`/users`, `/posts`]);
-
-export default function Board({ initialData }) {
+export default function BoardDetail({ initialData }) {
+  const router = useRouter();
+  const { id } = router.query;
   const {
     data: posts,
     error,
     mutate,
-  } = useSWR('/posts', {
-    fallbackData: initialData['/posts'],
+  } = useSWR(`/posts/${id}`, {
+    fallbackData: initialData[`/posts/${id}`],
   });
-  const { data: users } = useSWR('/users', {
-    fallbackData: initialData['/users'],
-  });
-
-  if (error) return <div>Failed to load posts</div>;
-  if (!posts) return <div>Loading...</div>;
 
   return (
     <div css={container}>
       <Header />
       <h1 className="title">Board</h1>
-      <Users users={users} />
-      <Posts posts={posts} />
+      <h2>{posts.title}</h2>
+      <p>{posts.body}</p>
     </div>
   );
 }

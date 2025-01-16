@@ -2,20 +2,21 @@
 const nextConfig = {
   reactStrictMode: true,
   compiler: {
-    emotion: true
+    emotion: true,
   },
+  productionBrowserSourceMaps: true,
   async rewrites() {
     if (process.env.NEXT_PUBLIC_NODE_ENV === 'local') {
       return [
         {
           source: '/api/:path*',
-          destination: `${process.env.NEXT_PUBLIC_API_URL}/api/:path*`
-        }
-      ]
+          destination: `${process.env.NEXT_PUBLIC_API_URL}/api/:path*`,
+        },
+      ];
     } else {
-      return []
+      return [];
     }
-  }
-}
+  },
+};
 
-export default nextConfig
+export default nextConfig;
