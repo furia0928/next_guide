@@ -131,15 +131,21 @@ export const withSSRProps = (endpointResolver) => async (context) => {
       return acc;
     }, {});
 
+    console.log(context.query);
+
     return {
       props: {
         initialData,
+        query: context.query,
+        // ...context,
       },
     };
   } catch (error) {
     return {
       props: {
         initialData: null,
+        query: context.query,
+        // ...context,
       },
     };
   }

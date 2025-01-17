@@ -1,4 +1,5 @@
 import useNumberStore from '@/store/numberStore';
+import Button from '@/components/common/Button';
 
 export default function Home() {
   const { number, increase, decrease, reset } = useNumberStore();
@@ -6,9 +7,18 @@ export default function Home() {
   return (
     <div>
       <h1>Current Number: {number}</h1>
-      <button onClick={increase}>Increase</button>
-      <button onClick={decrease}>Decrease</button>
-      <button onClick={reset}>Reset</button>
+      <Button variant="primary" size="small" onClick={increase}>
+        increase
+      </Button>
+      <Button variant="secondary" size="small" onClick={decrease}>
+        decrease
+      </Button>
+      <Button variant="danger" size="small" onClick={reset}>
+        Reset
+      </Button>
+      <Button variant="primary" size="small" disabled>
+        disabled
+      </Button>
     </div>
   );
 }

@@ -3,6 +3,8 @@ import { ErrorBoundary } from 'react-error-boundary';
 import ErrorFallback from '@/components/ErrorFallback';
 import { fetchData } from '@/lib/axiosInstance';
 import { Global } from '@emotion/react';
+import { ThemeProvider } from '@emotion/react';
+import theme from '@/styles/theme';
 import globalStyles from '@/styles/globalStyles';
 import Head from 'next/head';
 import Wrap from '@/components/layout/Wrap';
@@ -34,9 +36,11 @@ export default function App({ Component, pageProps }) {
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <Global styles={globalStyles} />
-        <Wrap>
-          <Component {...pageProps} />
-        </Wrap>
+        <ThemeProvider theme={theme}>
+          <Wrap>
+            <Component {...pageProps} />
+          </Wrap>
+        </ThemeProvider>
       </SWRConfig>
     </ErrorBoundary>
   );
