@@ -131,7 +131,7 @@ export const withSSRProps = (endpointResolver) => async (context) => {
       return acc;
     }, {});
 
-    console.log(context.query);
+    console.log(context);
 
     return {
       props: {

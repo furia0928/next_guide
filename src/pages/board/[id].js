@@ -18,8 +18,6 @@ export default function BoardDetail({ initialData, query }) {
   const [activeIndex, setActiveIndex] = useState(tab || 0);
   const { number, increase, decrease, reset } = useNumberStore();
 
-  console.log(123123, id, tab);
-
   const { data: posts } = useSWR(`/posts/${id}`, {
     fallbackData: initialData[`/posts/${id}`],
   });
