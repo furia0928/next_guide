@@ -57,7 +57,9 @@ Tabs.propTypes = {
 
 const styles = {
   container: css`
-    position: relative;
+    position: sticky;
+    top: 0;
+    left: 0;
     width: 100%;
     background: #fff;
   `,
@@ -76,7 +78,9 @@ const styles = {
     font-weight: bold;
     color: #555;
     outline: none;
-    transition: color 0.3s, border-bottom 0.3s;
+    transition:
+      color 0.3s,
+      border-bottom 0.3s;
 
     &:hover {
       color: #333;
