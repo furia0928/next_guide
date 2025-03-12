@@ -6,6 +6,7 @@ import { Users } from '@/components/ui/Users';
 import { withSSRProps } from '@/lib/axiosInstance';
 import useNumberStore from '@/store/numberStore';
 import { useState } from 'react';
+
 const tabsData = [
   { label: '탭 1', content: <p>탭 1의 내용입니다.</p> },
   { label: '탭 2', content: <p>탭 2의 내용입니다.</p> },

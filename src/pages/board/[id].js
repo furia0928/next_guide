@@ -13,8 +13,9 @@ export const getServerSideProps = withSSRProps((context) => {
   return [`/posts/${id}`, `/posts/${id}/comments`];
 });
 
-export default function BoardDetail({ initialData, query }) {
-  const { id, tab } = query;
+export default function BoardDetail({ initialData, query, params }) {
+  const { id } = params;
+  const { tab } = query;
   const [activeIndex, setActiveIndex] = useState(tab || 0);
   const { number, increase, decrease, reset } = useNumberStore();
 

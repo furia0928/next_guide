@@ -127,25 +127,22 @@ export const withSSRProps = (endpointResolver) => async (context) => {
     );
 
     const initialData = endpoints.reduce((acc, endpoint, idx) => {
-      acc[endpoint] = results[idx];
+      acc[endpoint] = results[idx] ?? {};
       return acc;
     }, {});
-
-    console.log(context);
-
     return {
       props: {
         initialData,
-        query: context.query,
-        // ...context,
+        query: context?.query || {},
+        params: context?.params || {},
       },
     };
   } catch (error) {
     return {
       props: {
         initialData: null,
-        query: context.query,
-        // ...context,
+        query: context?.query || {},
+        params: context?.params || {},
       },
     };
   }
