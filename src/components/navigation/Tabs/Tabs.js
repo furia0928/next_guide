@@ -1,13 +1,7 @@
-/** @jsxImportSource @emotion/react */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
-import {
-  StyledTabs,
-  StyledTabHeader,
-  StyledTabButton,
-  StyledTabContent,
-} from './Tabs.styles';
+import { StyledTabs } from './Tabs.styles';
 
 /**
  * Tabs 컴포넌트
@@ -26,7 +20,7 @@ const Tabs = ({ tabs, queryParam = 'tab', onTabChange }) => {
         query: { ...router.query, [queryParam]: index },
       },
       undefined,
-      { shallow: true } // shallow로 페이지 리로드 방지
+      { shallow: true }
     );
     if (onTabChange) {
       onTabChange(index);
@@ -35,18 +29,18 @@ const Tabs = ({ tabs, queryParam = 'tab', onTabChange }) => {
 
   return (
     <StyledTabs>
-      <StyledTabHeader>
+      <div className="tab-header">
         {tabs.map((tab, index) => (
-          <StyledTabButton
+          <button
             key={index}
-            active={currentTab === index}
+            className={`tab-button ${currentTab === index ? 'active' : ''}`}
             onClick={() => handleTabChange(index)}
           >
             {tab.label}
-          </StyledTabButton>
+          </button>
         ))}
-      </StyledTabHeader>
-      <StyledTabContent>{tabs[currentTab]?.content}</StyledTabContent>
+      </div>
+      <div className="tab-content">{tabs[currentTab]?.content}</div>
     </StyledTabs>
   );
 };
