@@ -1,6 +1,6 @@
 import useSWR from 'swr';
-import Button from '@/components/common/Button';
-import Tabs from '@/components/common/Tabs';
+import Button from '@/components/buttons/Button/Button';
+import Tabs from '@/components/navigation/Tabs/Tabs';
 import { Posts } from '@/components/ui/Posts';
 import { Users } from '@/components/ui/Users';
 import { withSSRProps } from '@/lib/axiosInstance';
@@ -12,6 +12,7 @@ const tabsData = [
   { label: '탭 2', content: <p>탭 2의 내용입니다.</p> },
   { label: '탭 3', content: <p>탭 3의 내용입니다.</p> },
 ];
+
 export const getServerSideProps = withSSRProps(() => {
   return ['/posts', '/users'];
 });

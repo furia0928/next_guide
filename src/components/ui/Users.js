@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 
 const style = css`
   padding: 20px;
-  background-color: #eee;
+  background-color: var(--background);
   border-radius: 10px;
 `;
 

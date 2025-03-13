@@ -1,16 +1,16 @@
 import { css } from '@emotion/react';
 
-const globalStyles = css`
+const globalStyles = (theme) => css`
   :root {
-    --background: #ffffff;
-    --foreground: #171717;
-  }
+    /* 색상 변수 */
+    ${Object.entries(theme.colors)
+      .map(([key, value]) => `--color-${key}: ${value};`)
+      .join('\n    ')}
 
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --background: #0a0a0a;
-      --foreground: #ededed;
-    }
+    /* 폰트 사이즈 변수 */
+    ${Object.entries(theme.fontSizes)
+      .map(([key, value]) => `--font-size-${key}: ${value};`)
+      .join('\n    ')}
   }
 
   html,
@@ -19,8 +19,8 @@ const globalStyles = css`
   }
 
   body {
-    color: var(--foreground);
-    background: var(--background);
+    color: var(--color-text);
+    background: var(--color-background);
     font-family: Arial, Helvetica, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -41,10 +41,11 @@ const globalStyles = css`
     html {
       color-scheme: dark;
     }
+    /* 다크 모드는 ThemeProvider를 통해 구현할 예정 */
   }
 
   h1 {
-    color: #333;
+    color: var(--color-text);
   }
 
   ul {

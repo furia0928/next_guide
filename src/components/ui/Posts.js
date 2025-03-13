@@ -1,29 +1,9 @@
 import Link from 'next/link';
-import { css } from '@emotion/react';
-
-const style = css`
-  padding: 20px;
-  background-color: #eee;
-  border-radius: 10px;
-
-  h2 {
-    color: #000;
-  }
-  li {
-    a {
-      color: #666;
-      display: block;
-      padding: 10px 0;
-    }
-    & + li a {
-      border-top: 1px solid red;
-    }
-  }
-`;
+import { PostsContainer } from './Posts.styles';
 
 export const Posts = ({ posts }) => {
   return (
-    <div css={style}>
+    <PostsContainer>
       <h2>posts</h2>
       <ul>
         {posts.map((post) => (
@@ -32,6 +12,6 @@ export const Posts = ({ posts }) => {
           </li>
         ))}
       </ul>
-    </div>
+    </PostsContainer>
   );
 };

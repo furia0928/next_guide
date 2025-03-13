@@ -1,8 +1,8 @@
 import useSWR from 'swr';
 import { PostsComments } from '@/components/ui/PostsComments';
 import { withSSRProps } from '@/lib/axiosInstance';
-import Button from '@/components/common/Button';
-import Tabs from '@/components/common/Tabs';
+import Button from '@/components/buttons/Button/Button';
+import Tabs from '@/components/navigation/Tabs/Tabs';
 import useNumberStore from '@/store/numberStore';
 import { useState } from 'react';
 

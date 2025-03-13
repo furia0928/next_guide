@@ -1,5 +1,5 @@
 import useNumberStore from '@/store/numberStore';
-import Button from '@/components/common/Button';
+import Button from '@/components/buttons/Button/Button';
 import useSWR from 'swr';
 
 /*export const getServerSideProps = withSSRProps(() => {
