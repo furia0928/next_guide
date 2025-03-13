@@ -4,7 +4,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import Input from '@/components/forms/Input/Input';
-import FormField from '@/components/forms/FormField';
+import FormField from '@/components/forms/FormField/FormField';
 
 // 유효성 검사 스키마 정의
 const validationSchema = yup.object().shape({

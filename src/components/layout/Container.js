@@ -1,5 +1,7 @@
+import { StyledContainer } from './Container.styles';
+
 function Container({ children }) {
-  return <main id="container">{children}</main>
+  return <StyledContainer>{children}</StyledContainer>;
 }
 
-export default Container
+export default Container;

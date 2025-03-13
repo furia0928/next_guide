@@ -1,9 +1,9 @@
 import Link from 'next/link';
-import { PostsContainer } from './Posts.styles';
+import { StyledPosts } from './Posts.styles';
 
 export const Posts = ({ posts }) => {
   return (
-    <PostsContainer>
+    <StyledPosts>
       <h2>posts</h2>
       <ul>
         {posts.map((post) => (
@@ -12,6 +12,6 @@ export const Posts = ({ posts }) => {
           </li>
         ))}
       </ul>
-    </PostsContainer>
+    </StyledPosts>
   );
 };

@@ -1,8 +1,7 @@
-import Link from 'next/link';
-import { router } from 'next/client';
+import { StyledFooter } from './Footer.styles';
 
 function Footer() {
-  return <footer>Footer</footer>;
+  return <StyledFooter>© 2023 NextJS Guide - All rights reserved</StyledFooter>;
 }
 
 export default Footer;
