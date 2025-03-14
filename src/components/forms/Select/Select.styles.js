@@ -13,9 +13,9 @@ export const StyledSelect = styled.div`
   /* 네이티브 셀렉트 (숨김) */
   .select-native {
     position: absolute;
-    width: 100%;
-    height: 20px;
-    left:100%;
+    width: 0;
+    height: 0;
+    left:-300vw;
     cursor: ${({ disabled }) => (disabled ? theme.cursor.notAllowed : theme.cursor.pointer)};
     z-index: 1;
   }
