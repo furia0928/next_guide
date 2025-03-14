@@ -9,15 +9,17 @@ export const StyledSelect = styled.div`
   .select-wrapper {
     position: relative;
   }
-  
+
   /* 네이티브 셀렉트 (숨김) */
-  .select-hidden {overflow: hidden; height:0; width:0;}
+  // .select-hidden {overflow: hidden; height:0; width:0;}
   .select-native {
     position: absolute;
-    width: 0;
-    height: 0;
-    left:-300vw;
-    cursor: ${({ disabled }) => (disabled ? theme.cursor.notAllowed : theme.cursor.pointer)};
+    left: 100%;
+    // width: 0;
+    // height: 0;
+    // left:-300vw;
+    cursor: ${({ disabled }) =>
+      disabled ? theme.cursor.notAllowed : theme.cursor.pointer};
     z-index: 1;
   }
 
@@ -31,16 +33,17 @@ export const StyledSelect = styled.div`
     height: 4rem;
     padding: 0 1.2rem;
     background-color: ${theme.colors.white};
-    border: 0.1rem solid ${({ error, focused }) => {
-      if (error) return theme.colors.error;
-      if (focused) return theme.colors.primary;
-      return theme.colors.border;
-    }};
+    border: 0.1rem solid
+      ${({ error, focused }) => {
+        if (error) return theme.colors.error;
+        if (focused) return theme.colors.primary;
+        return theme.colors.border;
+      }};
     border-radius: 0.4rem;
     transition: all 0.2s ease-in-out;
-    
+
     &:hover {
-      border-color: ${({ disabled }) => 
+      border-color: ${({ disabled }) =>
         disabled ? theme.colors.border : theme.colors.primary};
     }
   }
@@ -69,7 +72,7 @@ export const StyledSelect = styled.div`
     width: 1.6rem;
     height: 1.6rem;
     margin-left: 0.8rem;
-    color: ${({ disabled }) => 
+    color: ${({ disabled }) =>
       disabled ? theme.colors.disabled : theme.colors.gray700};
     transition: transform 0.2s ease-in-out;
     transform: ${({ open }) => (open ? 'rotate(180deg)' : 'rotate(0)')};
@@ -112,7 +115,7 @@ export const StyledSelect = styled.div`
     &.disabled {
       color: ${theme.colors.disabled};
       cursor: not-allowed;
-      
+
       &:hover {
         background-color: transparent;
       }
@@ -142,11 +145,11 @@ export const StyledSelect = styled.div`
   .helper-text {
     margin-top: 0.4rem;
     font-size: 1.2rem;
-    color: ${({ error }) => 
+    color: ${({ error }) =>
       error ? theme.colors.error : theme.colors.gray600};
 
     &.valid {
       color: ${theme.colors.success};
     }
   }
-`; 
+`;
