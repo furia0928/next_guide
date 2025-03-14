@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyledRadio, RadioInput, RadioCircle, RadioLabel } from './Radio.styles';
+import { StyledRadio } from './Radio.styles';
 
 const Radio = ({
   name,
@@ -11,11 +11,21 @@ const Radio = ({
   disabled,
   onChange,
   className,
+  error,
+  required,
+  helperText,
+  fullWidth,
   ...rest
 }) => {
   return (
-    <StyledRadio className={className} disabled={disabled}>
-      <RadioInput
+    <StyledRadio 
+      className={className} 
+      disabled={disabled}
+      error={error}
+      fullWidth={fullWidth}
+    >
+      <input
+        className="radio-input"
         type="radio"
         id={id}
         name={name}
@@ -25,8 +35,16 @@ const Radio = ({
         onChange={onChange}
         {...rest}
       />
-      <RadioCircle />
-      <RadioLabel htmlFor={id}>{label}</RadioLabel>
+      <div className="radio-circle" />
+      <label className="radio-label" htmlFor={id}>
+        {label}
+        {required && <span className="required-mark">*</span>}
+      </label>
+      {helperText && (
+        <div className={`helper-text ${!error && checked ? 'valid' : ''}`}>
+          {helperText}
+        </div>
+      )}
     </StyledRadio>
   );
 };
@@ -40,6 +58,10 @@ Radio.propTypes = {
   disabled: PropTypes.bool,
   onChange: PropTypes.func,
   className: PropTypes.string,
+  error: PropTypes.bool,
+  required: PropTypes.bool,
+  helperText: PropTypes.node,
+  fullWidth: PropTypes.bool,
 };
 
 Radio.defaultProps = {
@@ -47,6 +69,10 @@ Radio.defaultProps = {
   disabled: false,
   onChange: () => {},
   className: '',
+  error: false,
+  required: false,
+  helperText: null,
+  fullWidth: false,
 };
 
 export default Radio; 

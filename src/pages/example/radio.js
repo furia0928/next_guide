@@ -5,7 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import Radio from '@/components/forms/Radio';
 import FormField from '@/components/forms/FormField/FormField';
-import {  theme } from '@/styles/theme';
+import { theme } from '@/styles/theme';
 
 // 유효성 검사 스키마 정의
 const validationSchema = yup.object().shape({
@@ -86,33 +86,36 @@ const RadioEx = () => {
     <Container>
       <h1>Radio 컴포넌트 예제 (Yup 유효성 검사 적용)</h1>
 
-      {successMessage && <SuccessAlert>{successMessage}</SuccessAlert>}
+      {successMessage && <div className="success-alert">{successMessage}</div>}
 
-      <FormStatusBar>
-        <FormStatusItem className={isDirty ? 'active' : ''}>
+      <div className="form-status-bar">
+        <div className={`form-status-item ${isDirty ? 'active' : ''}`}>
           변경됨: {isDirty ? 'Yes' : 'No'}
-        </FormStatusItem>
-        <FormStatusItem className={isValid ? 'valid' : ''}>
+        </div>
+        <div className={`form-status-item ${isValid ? 'valid' : ''}`}>
           유효함: {isValid ? 'Yes' : 'No'}
-        </FormStatusItem>
-        <FormStatusItem>제출 시도: {submitCount}</FormStatusItem>
-      </FormStatusBar>
+        </div>
+        <div className="form-status-item">제출 시도: {submitCount}</div>
+      </div>
 
       <FormProvider {...formMethods}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Section>
+          <section className="section">
             <h2>기본 라디오 버튼</h2>
             <FormField
               name="gender"
               label="성별"
               validationMessage="✓ 성별이 선택되었습니다"
             >
-              <RadioGroup>
+              <div className="radio-group">
                 <Radio
                   id="male"
                   name="gender"
                   value="male"
                   label="남성"
+                  required
+                  error={!!errors.gender}
+                  helperText={errors.gender ? errors.gender.message : null}
                   {...formMethods.register('gender')}
                   checked={values.gender === 'male'}
                 />
@@ -132,23 +135,25 @@ const RadioEx = () => {
                   {...formMethods.register('gender')}
                   checked={values.gender === 'other'}
                 />
-              </RadioGroup>
+              </div>
             </FormField>
-          </Section>
+          </section>
 
-          <Section>
+          <section className="section">
             <h2>가로 정렬 라디오 버튼</h2>
             <FormField
               name="subscription"
               label="구독 방식"
               validationMessage="✓ 구독 방식이 선택되었습니다"
             >
-              <HorizontalRadioGroup>
+              <div className="horizontal-radio-group">
                 <Radio
                   id="monthly"
                   name="subscription"
                   value="monthly"
                   label="월간 구독"
+                  error={!!errors.subscription}
+                  helperText={errors.subscription ? errors.subscription.message : null}
                   {...formMethods.register('subscription')}
                   checked={values.subscription === 'monthly'}
                 />
@@ -168,18 +173,19 @@ const RadioEx = () => {
                   {...formMethods.register('subscription')}
                   checked={values.subscription === 'lifetime'}
                 />
-              </HorizontalRadioGroup>
+              </div>
             </FormField>
-          </Section>
+          </section>
 
-          <Section>
+          <section className="section">
             <h2>비활성화된 라디오 버튼</h2>
-            <RadioGroup>
+            <div className="radio-group">
               <Radio
                 id="contact-email"
                 name="contactPreference"
                 value="email"
                 label="이메일로 연락 (추천)"
+                helperText="가장 빠른 응답을 받을 수 있는 방법입니다."
                 {...formMethods.register('contactPreference')}
                 checked={values.contactPreference === 'email'}
               />
@@ -188,6 +194,7 @@ const RadioEx = () => {
                 name="contactPreference"
                 value="phone"
                 label="전화로 연락"
+                helperText="영업일 기준 1-2일 내에 연락드립니다."
                 {...formMethods.register('contactPreference')}
                 checked={values.contactPreference === 'phone'}
               />
@@ -197,89 +204,125 @@ const RadioEx = () => {
                 value="mail"
                 label="우편으로 연락 (현재 불가능)"
                 disabled
+                helperText="현재 지원하지 않는 연락 방식입니다."
                 {...formMethods.register('contactPreference')}
                 checked={values.contactPreference === 'mail'}
               />
-            </RadioGroup>
-          </Section>
+            </div>
+          </section>
 
-          <Section>
+          <section className="section">
             <h2>스타일 변형</h2>
             <FormField
               name="experience"
               label="개발 경험 수준"
               validationMessage="✓ 경험 수준이 선택되었습니다"
             >
-              <StyledRadioGroup>
-                <StyledRadioItem isSelected={values.experience === 'beginner'}>
+              <div className="styled-radio-group">
+                <label className={`styled-radio-item ${values.experience === 'beginner' ? 'selected' : ''}`}>
                   <Radio
                     id="beginner"
                     name="experience"
                     value="beginner"
                     label="초보자"
+                    error={!!errors.experience}
+                    required
+                    helperText={values.experience === 'beginner' ? "초보자를 위한 기본 과정을 추천합니다." : null}
                     {...formMethods.register('experience')}
                     checked={values.experience === 'beginner'}
                   />
-                  <RadioDescription>
+                  <div className="radio-description">
                     프로그래밍 경험이 1년 미만입니다.
-                  </RadioDescription>
-                </StyledRadioItem>
+                  </div>
+                </label>
 
-                <StyledRadioItem isSelected={values.experience === 'intermediate'}>
+                <label className={`styled-radio-item ${values.experience === 'intermediate' ? 'selected' : ''}`}>
                   <Radio
                     id="intermediate"
                     name="experience"
                     value="intermediate"
                     label="중급자"
+                    error={!!errors.experience}
+                    helperText={values.experience === 'intermediate' ? "중급자를 위한 심화 과정을 추천합니다." : null}
                     {...formMethods.register('experience')}
                     checked={values.experience === 'intermediate'}
                   />
-                  <RadioDescription>
+                  <div className="radio-description">
                     프로그래밍 경험이 1-3년 정도입니다.
-                  </RadioDescription>
-                </StyledRadioItem>
+                  </div>
+                </label>
 
-                <StyledRadioItem isSelected={values.experience === 'advanced'}>
+                <label className={`styled-radio-item ${values.experience === 'advanced' ? 'selected' : ''}`}>
                   <Radio
                     id="advanced"
                     name="experience"
                     value="advanced"
                     label="고급자"
+                    error={!!errors.experience}
+                    helperText={values.experience === 'advanced' ? "고급자를 위한 전문가 과정을 추천합니다." : null}
                     {...formMethods.register('experience')}
                     checked={values.experience === 'advanced'}
                   />
-                  <RadioDescription>
+                  <div className="radio-description">
                     프로그래밍 경험이 3년 이상입니다.
-                  </RadioDescription>
-                </StyledRadioItem>
-              </StyledRadioGroup>
+                  </div>
+                </label>
+              </div>
             </FormField>
-          </Section>
+          </section>
 
-          <Section>
+          <section className="section">
+            <h2>전체 너비 라디오 버튼</h2>
+            <div className="radio-group">
+              <Radio
+                id="full-width-radio"
+                name="fullWidthRadio"
+                value="full-width"
+                label="전체 너비 라디오 버튼"
+                fullWidth
+                helperText="이 라디오 버튼은 부모 컨테이너의 전체 너비를 차지합니다."
+              />
+            </div>
+          </section>
+
+          <section className="section">
+            <h2>에러 상태 라디오 버튼</h2>
+            <div className="radio-group">
+              <Radio
+                id="error-radio"
+                name="errorRadio"
+                value="error"
+                label="에러 상태 라디오 버튼"
+                error={true}
+                helperText="이 라디오 버튼은 에러 상태를 보여줍니다."
+              />
+            </div>
+          </section>
+
+          <section className="section">
             <h2>폼 상태 정보</h2>
-            <FormInfoGrid>
-              <FormInfoItem>
+            <div className="form-info-grid">
+              <div className="form-info-item">
                 <h3>터치된 필드</h3>
-                <InfoValue>
+                <div className="info-value">
                   {Object.keys(touchedFields).join(', ') || '없음'}
-                </InfoValue>
-              </FormInfoItem>
-              <FormInfoItem>
+                </div>
+              </div>
+              <div className="form-info-item">
                 <h3>변경된 필드</h3>
-                <InfoValue>
+                <div className="info-value">
                   {Object.keys(dirtyFields).join(', ') || '없음'}
-                </InfoValue>
-              </FormInfoItem>
-              <FormInfoItem>
+                </div>
+              </div>
+              <div className="form-info-item">
                 <h3>오류 있는 필드</h3>
-                <InfoValue>
+                <div className="info-value">
                   {Object.keys(errors).join(', ') || '없음'}
-                </InfoValue>
-              </FormInfoItem>
-            </FormInfoGrid>
+                </div>
+              </div>
+            </div>
 
-            <ValidationStatus error={Object.keys(errors).length > 0}>
+            <div className={`validation-status ${Object.keys(errors).length > 0 ? 'error' : ''}`}>
               <h3>유효성 검사 상태</h3>
               <ul>
                 {Object.entries(errors).map(([field, error]) => (
@@ -291,25 +334,27 @@ const RadioEx = () => {
                   <li className="success">모든 필드가 유효합니다</li>
                 )}
               </ul>
-            </ValidationStatus>
-            <CodePreview>{JSON.stringify(values, null, 2)}</CodePreview>
-          </Section>
+            </div>
+            <pre className="code-preview">{JSON.stringify(values, null, 2)}</pre>
+          </section>
 
-          <ButtonGroup>
-            <SubmitButton
+          <div className="button-group">
+            <button
+              className="submit-button"
               type="submit"
               disabled={!isDirty || !isValid || formMethods.isSubmitting}
             >
               {formMethods.isSubmitting ? '제출 중...' : '제출하기'}
-            </SubmitButton>
-            <ResetButton
+            </button>
+            <button
+              className="reset-button"
               type="button"
               onClick={handleReset}
               disabled={!isDirty && !formMethods.isSubmitSuccessful}
             >
               초기화
-            </ResetButton>
-          </ButtonGroup>
+            </button>
+          </div>
         </form>
       </FormProvider>
     </Container>
@@ -321,231 +366,246 @@ const Container = styled.div`
   margin: 0 auto;
   padding: 4rem 2rem;
   font-family: 'Pretendard', sans-serif;
-`;
 
-const Section = styled.section`
-  margin-bottom: 4rem;
-
-  h2 {
-    margin-bottom: 1.6rem;
-    font-size: 1.8rem;
-    font-weight: 600;
-  }
-`;
-
-const RadioGroup = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-`;
-
-const HorizontalRadioGroup = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-  }
-`;
-
-const StyledRadioGroup = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1.6rem;
-`;
-
-const StyledRadioItem = styled.div`
-  padding: 1.6rem;
-  border: 0.1rem solid ${props => props.isSelected ? theme.colors.primary : theme.colors.gray300};
-  border-radius: 0.8rem;
-  transition: all 0.2s ease-in-out;
-  background-color: ${props => props.isSelected ? 'rgba(234, 81, 30, 0.05)' : theme.colors.white};
-`;
-
-const RadioDescription = styled.div`
-  margin-top: 0.8rem;
-  margin-left: 3rem;
-  font-size: 1.4rem;
-  color: ${theme.colors.gray600};
-`;
-
-const FormStatusBar = styled.div`
-  display: flex;
-  gap: 1.5rem;
-  background-color: ${theme.colors.gray100};
-  padding: 1.2rem 1.6rem;
-  border-radius: 0.4rem;
-  margin-bottom: 2.4rem;
-  flex-wrap: wrap;
-`;
-
-const FormStatusItem = styled.div`
-  font-size: 1.4rem;
-  font-weight: 500;
-  padding: 0.4rem 0.8rem;
-  border-radius: 0.4rem;
-  background-color: ${theme.colors.gray200};
-
-  &.active {
-    background-color: ${theme.colors.primary};
-    color: ${theme.colors.white};
+  h1 {
+    margin-bottom: 2rem;
+    font-size: 2.4rem;
+    font-weight: 700;
   }
 
-  &.valid {
+  .success-alert {
+    margin-bottom: 2.4rem;
+    padding: 1.6rem;
     background-color: ${theme.colors.success};
     color: ${theme.colors.white};
-  }
-`;
-
-const FormInfoGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
-  gap: 1.6rem;
-  margin-bottom: 2rem;
-`;
-
-const FormInfoItem = styled.div`
-  background-color: ${theme.colors.gray100};
-  padding: 1.2rem;
-  border-radius: 0.4rem;
-
-  h3 {
-    font-size: 1.4rem;
+    border-radius: 0.4rem;
     font-weight: 500;
-    margin-bottom: 0.8rem;
-    color: ${theme.colors.gray700};
-  }
-`;
+    text-align: center;
+    animation: fadeIn 0.3s ease;
 
-const InfoValue = styled.div`
-  font-size: 1.4rem;
-  word-break: break-all;
-`;
-
-const CodePreview = styled.pre`
-  background-color: ${theme.colors.gray100};
-  padding: 1.6rem;
-  border-radius: 0.4rem;
-  font-family: 'Courier New', monospace;
-  font-size: 1.4rem;
-  overflow-x: auto;
-`;
-
-const ValidationStatus = styled.div`
-  margin-bottom: 1.6rem;
-  padding: 1.6rem;
-  background-color: ${theme.colors.gray100};
-  border-radius: 0.4rem;
-  border-left: 0.4rem solid ${(props) => (props.error ? theme.colors.error : theme.colors.success)};
-  transition: border-color 0.3s ease;
-
-  h3 {
-    margin-bottom: 0.8rem;
-    font-size: 1.6rem;
-    font-weight: 500;
-  }
-
-  ul {
-    list-style: none;
-    padding: 0;
-    font-size: 1.4rem;  
-  }
-
-  li {
-    margin-bottom: 0.4rem;
-    color: ${theme.colors.error};
-  }
-
-  li.success {
-    color: ${theme.colors.success};
-  }
-`;
-
-const SuccessAlert = styled.div`
-  margin-bottom: 2.4rem;
-  padding: 1.6rem;
-  background-color: ${theme.colors.success};
-  color: ${theme.colors.white};
-  border-radius: 0.4rem;
-  font-weight: 500;
-  text-align: center;
-  animation: fadeIn 0.3s ease;
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(-1rem);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-1rem);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
   }
-`;
 
-const ButtonGroup = styled.div`
-  display: flex;
-  gap: 1.6rem;
+  .form-status-bar {
+    display: flex;
+    gap: 1.5rem;
+    background-color: ${theme.colors.gray100};
+    padding: 1.2rem 1.6rem;
+    border-radius: 0.4rem;
+    margin-bottom: 2.4rem;
+    flex-wrap: wrap;
 
-  @media (max-width: 480px) {
+    .form-status-item {
+      font-size: 1.4rem;
+      font-weight: 500;
+      padding: 0.4rem 0.8rem;
+      border-radius: 0.4rem;
+      background-color: ${theme.colors.gray200};
+
+      &.active {
+        background-color: ${theme.colors.primary};
+        color: ${theme.colors.white};
+      }
+
+      &.valid {
+        background-color: ${theme.colors.success};
+        color: ${theme.colors.white};
+      }
+    }
+  }
+
+  .section {
+    margin-bottom: 4rem;
+
+    h2 {
+      margin-bottom: 1.6rem;
+      font-size: 1.8rem;
+      font-weight: 600;
+    }
+  }
+
+  .radio-group {
+    display: flex;
     flex-direction: column;
-  }
-`;
-
-const SubmitButton = styled.button`
-  background-color: ${theme.colors.primary};
-  color: ${theme.colors.white};
-  border: none;
-  border-radius: 0.4rem;
-  padding: 1.2rem 2.4rem;
-  font-size: 1.6rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-  flex: 1;
-
-  &:hover:not(:disabled) {
-    background-color: ${theme.colors.primary};
+    gap: 1rem;
   }
 
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 0.3rem rgba(33, 150, 243, 0.3);
+  .horizontal-radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+    }
   }
 
-  &:disabled {
-    background-color: ${theme.colors.gray200};
-    cursor: not-allowed;
-    opacity: 0.7;
-  }
-`;
+  .styled-radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
 
-const ResetButton = styled.button`
-  background-color: ${theme.colors.gray200};
-  color: ${theme.colors.gray700};
-  border: none;
-  border-radius: 0.4rem;
-  padding: 1.2rem 2.4rem;
-  font-size: 1.6rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-  flex: 1;
+    .styled-radio-item {
+      padding: 1.6rem;
+      border: 0.1rem solid ${theme.colors.gray300};
+      border-radius: 0.8rem;
+      transition: all 0.2s ease-in-out;
+      background-color: ${theme.colors.white};
 
-  &:hover:not(:disabled) {
-    background-color: ${theme.colors.gray200};
-  }
+      &.selected {
+        border-color: ${theme.colors.primary};
+        background-color: rgba(234, 81, 30, 0.05);
+      }
 
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 0.3rem rgba(73, 80, 87, 0.2);
+      .radio-description {
+        margin-top: 0.8rem;
+        margin-left: 3rem;
+        font-size: 1.4rem;
+        color: ${theme.colors.gray600};
+      }
+    }
   }
 
-  &:disabled {
-    color: ${theme.colors.gray400};
-    cursor: not-allowed;
-    opacity: 0.7;
+  .form-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+    gap: 1.6rem;
+    margin-bottom: 2rem;
+
+    .form-info-item {
+      background-color: ${theme.colors.gray100};
+      padding: 1.2rem;
+      border-radius: 0.4rem;
+
+      h3 {
+        font-size: 1.4rem;
+        font-weight: 500;
+        margin-bottom: 0.8rem;
+        color: ${theme.colors.gray700};
+      }
+
+      .info-value {
+        font-size: 1.4rem;
+        word-break: break-all;
+      }
+    }
+  }
+
+  .validation-status {
+    margin-bottom: 1.6rem;
+    padding: 1.6rem;
+    background-color: ${theme.colors.gray100};
+    border-radius: 0.4rem;
+    border-left: 0.4rem solid ${theme.colors.success};
+    transition: border-color 0.3s ease;
+
+    &.error {
+      border-left-color: ${theme.colors.error};
+    }
+
+    h3 {
+      margin-bottom: 0.8rem;
+      font-size: 1.6rem;
+      font-weight: 500;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      font-size: 1.4rem;  
+    }
+
+    li {
+      margin-bottom: 0.4rem;
+      color: ${theme.colors.error};
+
+      &.success {
+        color: ${theme.colors.success};
+      }
+    }
+  }
+
+  .code-preview {
+    background-color: ${theme.colors.gray100};
+    padding: 1.6rem;
+    border-radius: 0.4rem;
+    font-family: 'Courier New', monospace;
+    font-size: 1.4rem;
+    overflow-x: auto;
+  }
+
+  .button-group {
+    display: flex;
+    gap: 1.6rem;
+
+    @media (max-width: 480px) {
+      flex-direction: column;
+    }
+
+    .submit-button {
+      background-color: ${theme.colors.primary};
+      color: ${theme.colors.white};
+      border: none;
+      border-radius: 0.4rem;
+      padding: 1.2rem 2.4rem;
+      font-size: 1.6rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      flex: 1;
+
+      &:hover:not(:disabled) {
+        background-color: ${theme.colors.primary};
+      }
+
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 0 0.3rem rgba(33, 150, 243, 0.3);
+      }
+
+      &:disabled {
+        background-color: ${theme.colors.gray200};
+        cursor: not-allowed;
+        opacity: 0.7;
+      }
+    }
+
+    .reset-button {
+      background-color: ${theme.colors.gray200};
+      color: ${theme.colors.gray700};
+      border: none;
+      border-radius: 0.4rem;
+      padding: 1.2rem 2.4rem;
+      font-size: 1.6rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      flex: 1;
+
+      &:hover:not(:disabled) {
+        background-color: ${theme.colors.gray200};
+      }
+
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 0 0.3rem rgba(73, 80, 87, 0.2);
+      }
+
+      &:disabled {
+        color: ${theme.colors.gray400};
+        cursor: not-allowed;
+        opacity: 0.7;
+      }
+    }
   }
 `;
 

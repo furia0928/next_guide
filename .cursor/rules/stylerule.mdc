@@ -13,7 +13,6 @@ alwaysApply: false
    - 모든 크기 단위(font-size, margin, padding, width, height 등)는 기본적으로 rem 단위를 사용합니다.
    - 픽셀 값은 rem으로 변환하여 사용합니다 (기준: 10px = 1rem).
    - 예외적으로 border와 같은 미세한 요소는 px 단위 사용 가능합니다.
-   - 가능한 경우 theme.js에서 제공하는 rem() 함수를 사용하세요.
 
 2. **반응형 디자인**:
    - media query 사용 시 px 대신 rem 단위로 breakpoint를 지정합니다.
@@ -58,3 +57,30 @@ alwaysApply: false
 2. **색상 대비**:
    - 텍스트와 배경 간의 충분한 대비를 보장합니다.
    - 색상만으로 정보를 전달하지 않습니다.
+
+
+## 스타일링 예시
+
+### 지양할 방식 (여러 컴포넌트)
+```javascript
+export const StyledRadio = styled.div`...`;
+export const RadioInput = styled.input`...`;
+export const RadioCircle = styled.div`...`;
+export const RadioLabel = styled.label`...`;
+
+// 사용: <StyledRadio><RadioInput/><RadioCircle/><RadioLabel/></StyledRadio>
+```
+
+### 권장 방식 (단일 컴포넌트 + 클래스)
+```javascript
+export const StyledRadio = styled.div`
+  /* 컨테이너 스타일 */
+  
+  .radio-input { /* 입력 스타일 */ }
+  .radio-circle { /* 원형 스타일 */ }
+  .radio-label { /* 레이블 스타일 */ }
+`;
+
+// 사용: <StyledRadio><input className="radio-input"/><div className="radio-circle"/></StyledRadio>
+``` 
+
