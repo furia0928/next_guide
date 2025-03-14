@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import Modal from '@/components/feedback/Modal/Modal';
+import Button from '@/components/buttons/Button/Button';
 import { useModalStore } from '@/store/modalStore';
 
 // 스타일드 컴포넌트
@@ -19,39 +20,6 @@ const ButtonGroup = styled.div`
   gap: 12px;
   margin-bottom: 24px;
   flex-wrap: wrap;
-`;
-
-const Button = styled.button`
-  padding: 8px 16px;
-  background-color: #0070f3;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.2s;
-
-  &:hover {
-    background-color: #0051c1;
-  }
-
-  &.secondary {
-    background-color: #f5f5f5;
-    color: #333;
-    border: 1px solid #ddd;
-
-    &:hover {
-      background-color: #e5e5e5;
-    }
-  }
-
-  &.danger {
-    background-color: #e53e3e;
-
-    &:hover {
-      background-color: #c53030;
-    }
-  }
 `;
 
 // 기본 모달 컴포넌트
