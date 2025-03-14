@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import Radio from '@/components/forms/Radio';
+import Radio from '@/components/forms/Radio/Radio';
 import FormField from '@/components/forms/FormField/FormField';
 import { theme } from '@/styles/theme';
 
