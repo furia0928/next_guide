@@ -105,7 +105,7 @@ export const StyledSelect = styled.div`
     }
 
     &.selected {
-      background-color: ${theme.colors.primaryLight};
+      background-color: ${theme.colors.gray100};
       font-weight: 500;
     }
 

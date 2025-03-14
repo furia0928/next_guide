@@ -160,6 +160,7 @@ const Select = ({
         <div className="select-hidden">
           <select
             ref={selectBox}
+            title={""}
             id={id}
             name={name}
             value={value}
