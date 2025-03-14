@@ -3,33 +3,19 @@ import styled from '@emotion/styled';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import Input from '@/components/forms/Input/Input';
+import Radio from '@/components/forms/Radio';
 import FormField from '@/components/forms/FormField/FormField';
-import { theme } from '@/styles/theme';
+import {  theme } from '@/styles/theme';
 
 // 유효성 검사 스키마 정의
 const validationSchema = yup.object().shape({
-  username: yup
-    .string()
-    .required('사용자 이름은 필수입니다')
-    .min(4, '사용자 이름은 최소 4자 이상이어야 합니다')
-    .max(20, '사용자 이름은 최대 20자까지 가능합니다'),
-  email: yup
-    .string()
-    .required('이메일은 필수입니다')
-    .email('유효한 이메일 형식이 아닙니다'),
-  password: yup
-    .string()
-    .required('비밀번호는 필수입니다')
-    .min(8, '비밀번호는 최소 8자 이상이어야 합니다')
-    .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
-      '비밀번호는 대문자, 소문자, 숫자, 특수문자를 포함해야 합니다'
-    ),
-  disabled: yup.string(),
+  gender: yup.string().required('성별을 선택해주세요'),
+  subscription: yup.string().required('구독 방식을 선택해주세요'),
+  experience: yup.string().required('경험 수준을 선택해주세요'),
+  contactPreference: yup.string(),
 });
 
-const InputEx = () => {
+const RadioEx = () => {
   const [successMessage, setSuccessMessage] = useState('');
 
   // 폼 초기화
@@ -37,10 +23,10 @@ const InputEx = () => {
     resolver: yupResolver(validationSchema),
     mode: 'onChange',
     defaultValues: {
-      username: '',
-      email: '',
-      password: '',
-      disabled: '이 필드는 비활성화되어 있습니다',
+      gender: '',
+      subscription: '',
+      experience: '',
+      contactPreference: '',
     },
   });
 
@@ -98,7 +84,7 @@ const InputEx = () => {
 
   return (
     <Container>
-      <h1>Input 컴포넌트 예제 (Yup 유효성 검사 적용)</h1>
+      <h1>Radio 컴포넌트 예제 (Yup 유효성 검사 적용)</h1>
 
       {successMessage && <SuccessAlert>{successMessage}</SuccessAlert>}
 
@@ -115,86 +101,159 @@ const InputEx = () => {
       <FormProvider {...formMethods}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Section>
-            <h2>기본 입력 필드</h2>
+            <h2>기본 라디오 버튼</h2>
             <FormField
-              name="username"
-              label="사용자 이름"
-              validationMessage="✓ 올바른 형식입니다"
-              fullWidth
+              name="gender"
+              label="성별"
+              validationMessage="✓ 성별이 선택되었습니다"
             >
-              <Input
-                placeholder="사용자 이름을 입력하세요"
-                required
-                fullWidth
+              <RadioGroup>
+                <Radio
+                  id="male"
+                  name="gender"
+                  value="male"
+                  label="남성"
+                  {...formMethods.register('gender')}
+                  checked={values.gender === 'male'}
+                />
+                <Radio
+                  id="female"
+                  name="gender"
+                  value="female"
+                  label="여성"
+                  {...formMethods.register('gender')}
+                  checked={values.gender === 'female'}
+                />
+                <Radio
+                  id="other"
+                  name="gender"
+                  value="other"
+                  label="기타"
+                  {...formMethods.register('gender')}
+                  checked={values.gender === 'other'}
+                />
+              </RadioGroup>
+            </FormField>
+          </Section>
+
+          <Section>
+            <h2>가로 정렬 라디오 버튼</h2>
+            <FormField
+              name="subscription"
+              label="구독 방식"
+              validationMessage="✓ 구독 방식이 선택되었습니다"
+            >
+              <HorizontalRadioGroup>
+                <Radio
+                  id="monthly"
+                  name="subscription"
+                  value="monthly"
+                  label="월간 구독"
+                  {...formMethods.register('subscription')}
+                  checked={values.subscription === 'monthly'}
+                />
+                <Radio
+                  id="yearly"
+                  name="subscription"
+                  value="yearly"
+                  label="연간 구독"
+                  {...formMethods.register('subscription')}
+                  checked={values.subscription === 'yearly'}
+                />
+                <Radio
+                  id="lifetime"
+                  name="subscription"
+                  value="lifetime"
+                  label="평생 구독"
+                  {...formMethods.register('subscription')}
+                  checked={values.subscription === 'lifetime'}
+                />
+              </HorizontalRadioGroup>
+            </FormField>
+          </Section>
+
+          <Section>
+            <h2>비활성화된 라디오 버튼</h2>
+            <RadioGroup>
+              <Radio
+                id="contact-email"
+                name="contactPreference"
+                value="email"
+                label="이메일로 연락 (추천)"
+                {...formMethods.register('contactPreference')}
+                checked={values.contactPreference === 'email'}
+              />
+              <Radio
+                id="contact-phone"
+                name="contactPreference"
+                value="phone"
+                label="전화로 연락"
+                {...formMethods.register('contactPreference')}
+                checked={values.contactPreference === 'phone'}
+              />
+              <Radio
+                id="contact-mail"
+                name="contactPreference"
+                value="mail"
+                label="우편으로 연락 (현재 불가능)"
                 disabled
+                {...formMethods.register('contactPreference')}
+                checked={values.contactPreference === 'mail'}
               />
-            </FormField>
+            </RadioGroup>
           </Section>
 
           <Section>
-            <h2>유효성 검사 입력 필드</h2>
+            <h2>스타일 변형</h2>
             <FormField
-              name="email"
-              label="이메일"
-              validationMessage="✓ 올바른 이메일 형식입니다"
-              fullWidth
+              name="experience"
+              label="개발 경험 수준"
+              validationMessage="✓ 경험 수준이 선택되었습니다"
             >
-              <Input
-                type="email"
-                placeholder="이메일을 입력하세요"
-                required
-                fullWidth
-              />
-            </FormField>
-          </Section>
+              <StyledRadioGroup>
+                <StyledRadioItem isSelected={values.experience === 'beginner'}>
+                  <Radio
+                    id="beginner"
+                    name="experience"
+                    value="beginner"
+                    label="초보자"
+                    {...formMethods.register('experience')}
+                    checked={values.experience === 'beginner'}
+                  />
+                  <RadioDescription>
+                    프로그래밍 경험이 1년 미만입니다.
+                  </RadioDescription>
+                </StyledRadioItem>
 
-          <Section>
-            <h2>필수 입력 필드</h2>
-            <FormField
-              name="password"
-              label="비밀번호"
-              validationMessage="✓ 안전한 비밀번호입니다"
-              fullWidth
-            >
-              <Input
-                type="password"
-                placeholder="비밀번호를 입력하세요"
-                helperText="대문자, 소문자, 숫자, 특수문자를 포함한 8자 이상의 비밀번호를 입력해주세요"
-                required
-                fullWidth
-              />
-            </FormField>
-          </Section>
+                <StyledRadioItem isSelected={values.experience === 'intermediate'}>
+                  <Radio
+                    id="intermediate"
+                    name="experience"
+                    value="intermediate"
+                    label="중급자"
+                    {...formMethods.register('experience')}
+                    checked={values.experience === 'intermediate'}
+                  />
+                  <RadioDescription>
+                    프로그래밍 경험이 1-3년 정도입니다.
+                  </RadioDescription>
+                </StyledRadioItem>
 
-          <Section>
-            <h2>비활성화된 입력 필드</h2>
-            <FormField name="disabled" label="비활성화됨" fullWidth>
-              <Input disabled fullWidth />
+                <StyledRadioItem isSelected={values.experience === 'advanced'}>
+                  <Radio
+                    id="advanced"
+                    name="experience"
+                    value="advanced"
+                    label="고급자"
+                    {...formMethods.register('experience')}
+                    checked={values.experience === 'advanced'}
+                  />
+                  <RadioDescription>
+                    프로그래밍 경험이 3년 이상입니다.
+                  </RadioDescription>
+                </StyledRadioItem>
+              </StyledRadioGroup>
             </FormField>
-          </Section>
-
-          <Section>
-            <h2>다양한 크기</h2>
-            <SizeWrapper>
-              <Input
-                label="작은 크기"
-                placeholder="Small"
-                size="small"
-                className="size-input"
-              />
-              <Input
-                label="중간 크기"
-                placeholder="Medium"
-                size="medium"
-                className="size-input"
-              />
-              <Input
-                label="큰 크기"
-                placeholder="Large"
-                size="large"
-                className="size-input"
-              />
-            </SizeWrapper>
           </Section>
 
           <Section>
@@ -260,43 +319,55 @@ const InputEx = () => {
 const Container = styled.div`
   max-width: 80rem;
   margin: 0 auto;
-  padding: 0.4rem 0.2rem;
+  padding: 4rem 2rem;
   font-family: 'Pretendard', sans-serif;
 `;
 
 const Section = styled.section`
-  margin-bottom: 0.4rem;
+  margin-bottom: 4rem;
 
   h2 {
     margin-bottom: 1.6rem;
     font-size: 1.8rem;
     font-weight: 600;
   }
+`;
 
-  .field-error {
-    input {
-      border-color: ${theme.colors.error};
-    }
-  }
+const RadioGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
 
-  .field-valid {
-    input {
-      border-color: ${theme.colors.success};
-    }
+const HorizontalRadioGroup = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
   }
 `;
 
-const FieldStatus = styled.div`
-  font-size: 1.2rem;
-  margin-top: 0.4rem;
+const StyledRadioGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+`;
 
-  &.valid {
-    color: ${theme.colors.success};
-  }
+const StyledRadioItem = styled.div`
+  padding: 1.6rem;
+  border: 0.1rem solid ${props => props.isSelected ? theme.colors.primary : theme.colors.gray300};
+  border-radius: 0.8rem;
+  transition: all 0.2s ease-in-out;
+  background-color: ${props => props.isSelected ? 'rgba(234, 81, 30, 0.05)' : theme.colors.white};
+`;
 
-  &.error {
-    color: ${theme.colors.error};
-  }
+const RadioDescription = styled.div`
+  margin-top: 0.8rem;
+  margin-left: 3rem;
+  font-size: 1.4rem;
+  color: ${theme.colors.gray600};
 `;
 
 const FormStatusBar = styled.div`
@@ -327,22 +398,9 @@ const FormStatusItem = styled.div`
   }
 `;
 
-const SizeWrapper = styled.div`
-  display: flex;
-  gap: 1.6rem;
-
-  .size-input {
-    flex: 1;
-  }
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-  }
-`;
-
 const FormInfoGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
   gap: 1.6rem;
   margin-bottom: 2rem;
 `;
@@ -417,7 +475,7 @@ const SuccessAlert = styled.div`
   @keyframes fadeIn {
     from {
       opacity: 0;
-      transform: translateY(-10px);
+      transform: translateY(-1rem);
     }
     to {
       opacity: 1;
@@ -453,7 +511,7 @@ const SubmitButton = styled.button`
 
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.3);
+    box-shadow: 0 0 0 0.3rem rgba(33, 150, 243, 0.3);
   }
 
   &:disabled {
@@ -481,7 +539,7 @@ const ResetButton = styled.button`
 
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(73, 80, 87, 0.2);
+    box-shadow: 0 0 0 0.3rem rgba(73, 80, 87, 0.2);
   }
 
   &:disabled {
@@ -491,4 +549,4 @@ const ResetButton = styled.button`
   }
 `;
 
-export default InputEx;
+export default RadioEx; 

@@ -41,15 +41,23 @@ export const theme = {
     gray700: '#555555',
     black: '#000000',
   },
-};
-
-/**
- * px 값을 rem 단위로 변환 (10px 기준)
- * @param {number} px - 변환할 px 값
- * @returns {string} rem 단위 문자열 (예: rem(10) -> '1rem')
- */
-export const rem = (px) => {
-  return `${px / 10}rem`;
+  cursor: {
+    default: 'default',
+    pointer: 'pointer',
+    text: 'text',
+    move: 'move',
+    notAllowed: 'not-allowed',
+    wait: 'wait',
+    progress: 'progress',
+    grab: 'grab',
+    grabbing: 'grabbing',
+    zoomIn: 'zoom-in',
+    zoomOut: 'zoom-out',
+    help: 'help',
+    crosshair: 'crosshair',
+    custom: `url('/cursor/custom-cursor.png'), auto`,
+    customPointer: `url('/cursor/custom-pointer.png'), pointer`,
+  },
 };
 
 /**
@@ -116,5 +124,14 @@ function hexToRgba(hexColor, opacity = 1) {
   
   return `rgba(${r}, ${g}, ${b}, ${opacity})`;
 }
+
+/**
+ * 특정 요소에 대한 커서 스타일 가져오기
+ * @param {string} cursorType - 커서 유형 (theme.cursor에서 정의된 키)
+ * @returns {function} - theme을 인자로 받아 cursor 스타일 문자열을 반환하는 함수
+ */
+export const getCursor = (cursorType = 'default') => (theme) => {
+  return theme.cursor[cursorType] || theme.cursor.default;
+};
 
 export default theme;

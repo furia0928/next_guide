@@ -1,4 +1,9 @@
 ---
+description: base rule
+globs: 
+alwaysApply: false
+---
+---
 description: This rule provides essential guidelines for component structure.
 globs: *.js
 alwaysApply: true

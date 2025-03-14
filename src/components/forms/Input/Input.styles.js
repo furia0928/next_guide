@@ -25,7 +25,7 @@ export const StyledInput = styled.div`
   .required-mark {
     font-weight: 600;
     color: ${theme.colors.primary};
-    margin-left: ${rem(4)};
+    margin-left: 0.4rem;
   }
 
   /* 입력 필드 */
