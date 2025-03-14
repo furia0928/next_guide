@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import { Transition } from 'react-transition-group';
@@ -33,61 +33,46 @@ const Modal = ({
   showCloseButton = true,
 }) => {
   const [isVisible, setIsVisible] = useState(false);
-
   const { modalList, modalClose, modalSpeed } = useModalStore();
   const nodeRef = useRef(null);
+  const timeoutRef = useRef(null);
 
   useEffect(() => {
-    setTimeout(
-      () =>
-        setIsVisible(modalList.find((modal) => modal.name === name)?.visible),
-      1
-    );
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    timeoutRef.current = setTimeout(() => {
+      const modalItem = modalList.find((modal) => modal.name === name);
+      setIsVisible(!!modalItem?.visible); // undefined 방지
+    }, 1);
+    return () => clearTimeout(timeoutRef.current);
   }, [modalList, name]);
 
   const onModalEnter = () => {
     gsap.fromTo(
       nodeRef.current,
-      {
-        autoAlpha: 0,
-        ease: 'power3.out',
-      },
-      {
-        autoAlpha: 1,
-        duration: modalSpeed / 1000,
-        ease: 'power3.out',
-      }
+      { autoAlpha: 0, ease: 'power3.out' },
+      { autoAlpha: 1, duration: modalSpeed / 1000, ease: 'power3.out' }
     );
   };
   const onModalExit = () => {
     console.log(nodeRef.current, modalSpeed);
     gsap.fromTo(
       nodeRef.current,
-      {
-        autoAlpha: 1,
-        ease: 'power3.out',
-      },
-      {
-        autoAlpha: 0,
-        duration: modalSpeed / 1000,
-        ease: 'power3.inOut',
-      }
+      { autoAlpha: 1, ease: 'power3.out' },
+      { autoAlpha: 0, duration: modalSpeed / 1000, ease: 'power3.inOut' }
     );
   };
-
-  const isOpen = useMemo(() => {
-    return modalList.some((modal) => modal.name === name);
-  }, [modalList, name]);
 
   // ESC 키로 모달 닫기
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (closeOnEsc && e.key === 'Escape' && isOpen) {
+      if (closeOnEsc && e.key === 'Escape' && isVisible) {
         modalClose(name);
       }
     };
 
-    if (isOpen) {
+    if (isVisible) {
       document.addEventListener('keydown', handleKeyDown);
       document.body.style.overflow = 'hidden'; // 배경 스크롤 방지
     }
@@ -95,7 +80,7 @@ const Modal = ({
       document.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = ''; // 배경 스크롤 복원
     };
-  }, [isOpen, modalClose, name, closeOnEsc]);
+  }, [isVisible, modalClose, name, closeOnEsc]);
 
   // 오버레이 클릭 처리
   const handleOverlayClick = (e) => {
