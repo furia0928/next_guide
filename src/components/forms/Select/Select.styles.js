@@ -14,10 +14,10 @@ export const StyledSelect = styled.div`
   // .select-hidden {overflow: hidden; height:0; width:0;}
   .select-native {
     position: absolute;
-    left: 100%;
-    // width: 0;
-    // height: 0;
-    // left:-300vw;
+    //left: 100%;
+    width: 0;
+    height: 0;
+    left: -300vw;
     cursor: ${({ disabled }) =>
       disabled ? theme.cursor.notAllowed : theme.cursor.pointer};
     z-index: 1;
