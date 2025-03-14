@@ -1,27 +1,33 @@
 import Modal from '@/components/feedback/Modal/Modal';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useModalStore } from '@/store/modalStore';
 import Button from '@/components/buttons/Button/Button';
 
 const Alert = () => {
   const { modalList, modalClose } = useModalStore();
+
   const alertArr = useMemo(() => {
     return modalList.filter((modal) => modal.name.includes('alert'));
   }, [modalList]);
+
+  useEffect(() => {
+    console.log('alertArr', alertArr);
+  }, [alertArr]);
+
   return (
     <>
-      {alertArr.map((alertData, index) => {
+      {alertArr.map((alertData) => {
         return (
           <Modal
             key={alertData.name}
+            size="small"
             name={alertData.name}
             closeOnOverlayClick={false}
             closeOnEsc={false}
             showCloseButton={false}
-            size="small"
             title={alertData?.title}
             footer={
-              <div className="flex gap-2 ">
+              <div>
                 {alertData?.confirm && (
                   <Button
                     variant="secondary"

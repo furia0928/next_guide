@@ -36,11 +36,15 @@ const Modal = ({
   const nodeRef = useRef(null);
 
   const isVisible = useMemo(() => {
-    return modalList.find((modal) => modal.name === name)?.visible;
+    return !!modalList.find((modal) => modal.name === name)?.visible;
   }, [modalList, name]);
 
+  useEffect(() => {
+    console.log('isVisible', isVisible);
+  }, [isVisible]);
+
   const onModalEnter = () => {
-    console.log(nodeRef.current);
+    console.log(nodeRef.current, modalSpeed);
     gsap.fromTo(
       nodeRef.current,
       {
@@ -54,7 +58,8 @@ const Modal = ({
       }
     );
   };
-  const onModalExit = (el) => {
+  const onModalExit = () => {
+    console.log(nodeRef.current, modalSpeed);
     gsap.fromTo(
       nodeRef.current,
       {
@@ -99,16 +104,24 @@ const Modal = ({
   };
 
   if (typeof window === 'undefined') return <></>;
+
   const modalElement = (
     <Transition
       nodeRef={nodeRef}
       timeout={modalSpeed}
       in={isVisible}
-      onEnter={onModalEnter}
+      onEnter={() => {
+        onModalEnter();
+      }}
       onExit={onModalExit}
       unmountOnExit={true}
     >
-      <StyledModal size={size} fullWidth={fullWidth} ref={nodeRef}>
+      <StyledModal
+        size={size}
+        fullWidth={fullWidth}
+        ref={nodeRef}
+        className={'test'}
+      >
         <div className="modal-container">
           {(title || showCloseButton) && (
             <div className="modal-header">

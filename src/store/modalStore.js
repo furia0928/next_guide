@@ -7,9 +7,9 @@ export const useModalStore = create(
     (set, get) => ({
       // 모달 목록
       modalList: [],
-      modalSpeed: 300,
+      modalSpeed: 1000,
 
-      alert: async ({ title, text, modalSpeed = 300 }) => {
+      alert: async ({ title, text, modalSpeed = 1000 }) => {
         const uuid = v1();
         const { modalList } = get();
         return new Promise((resolve, reject) => {
@@ -29,7 +29,7 @@ export const useModalStore = create(
         });
       },
 
-      confirm: async ({ title, text, modalSpeed = 300 }) => {
+      confirm: async ({ title, text, modalSpeed = 1000 }) => {
         const uuid = v1();
         const { modalList } = get();
         return new Promise((resolve, reject) => {
@@ -52,7 +52,7 @@ export const useModalStore = create(
 
       modalOpen: async (
         modalName = '',
-        { modalSpeed = 300, callback } = {}
+        { modalSpeed = 1000, callback } = {}
       ) => {
         const { modalList } = get();
         try {
@@ -82,7 +82,7 @@ export const useModalStore = create(
 
       modalClose: async (
         modalName = '',
-        { modalSpeed = 300, confirm = false, callback } = {}
+        { modalSpeed = 1000, confirm = false, callback } = {}
       ) => {
         try {
           const { modalList } = get();
@@ -102,7 +102,7 @@ export const useModalStore = create(
             resolve(confirm);
             set({
               modalList: modalList.filter((modal) => modal.name !== modalName),
-              modalSpeed: 300,
+              modalSpeed: 1000,
             });
             if (callback) callback();
           }, modalSpeed);

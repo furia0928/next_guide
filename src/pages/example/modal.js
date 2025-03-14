@@ -56,21 +56,26 @@ const Button = styled.button`
 
 // 기본 모달 컴포넌트
 const BasicModal = () => {
+  const { alert } = useModalStore();
   return (
     <Modal name={'basic-modal'}>
       <p>이것은 useModal 훅을 사용한 기본 모달입니다.</p>
       <p>모달 스토어로 상태를 관리하여 어디서든 열고 닫을 수 있습니다.</p>
+      <Button
+        onClick={() => {
+          alert({ title: 'asdfasdf' });
+        }}
+      ></Button>
     </Modal>
   );
 };
 
 // 메인 예제 페이지 컴포넌트
 const ModalExample = () => {
-  const { modalClose, confirm, alert, modalList, modalOpen } = useModalStore();
+  const { confirm, alert, modalList, modalOpen } = useModalStore();
 
   return (
     <Container>
-      {JSON.stringify(modalList)}
       <h1>모달 컴포넌트 예제</h1>
       <p>
         이 예제는 Zustand와 useModal 훅을 활용한 모달 시스템을 보여줍니다. 여러
@@ -83,8 +88,31 @@ const ModalExample = () => {
         <ButtonGroup>
           <Button
             onClick={async () => {
-              await alert({ title: 'asf' });
-              const test = await confirm({ title: 'asf2' });
+              await alert({
+                title: '가나다라마바사아자차카타파하',
+                text: '가나다라마바사아자차카타파하',
+              });
+            }}
+          >
+            useModal 훅으로 열기
+          </Button>
+          <Button
+            onClick={async () => {
+              await modalOpen('basic-modal');
+            }}
+          >
+            useModal 훅으로 열기
+          </Button>
+          <Button
+            onClick={async () => {
+              await alert({
+                title: '가나다라마바사아자차카타파하',
+                text: '가나다라마바사아자차카타파하',
+              });
+              const test = await confirm({
+                title: '가나다라마바사아자차카타파하',
+                text: '가나다라마바사아자차카타파하',
+              });
               if (test) {
                 await modalOpen('basic-modal', {
                   callback: () => {
@@ -92,14 +120,15 @@ const ModalExample = () => {
                   },
                 });
               }
-              console.log(123444);
+              console.log('end');
             }}
           >
-            useModal 훅으로 열기
+            useModal 훅으로 열기2
           </Button>
         </ButtonGroup>
       </Section>
       <BasicModal />
+      {JSON.stringify(modalList)}
     </Container>
   );
 };
