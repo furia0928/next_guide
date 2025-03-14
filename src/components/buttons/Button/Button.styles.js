@@ -1,47 +1,64 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { opacity } from '@/styles/theme';
+import { theme } from '@/styles/theme';
 
 // 버튼 크기별 스타일 정의
 const getSizeStyles = (size) => {
   switch (size) {
     case 'small':
       return css`
-        padding: 8px 16px;
-        font-size: 0.875rem;
-        min-height: 32px;
+        padding: 0.6rem 1.2rem;
+        font-size: 1.3rem;
+        line-height: 2.0rem;
+      `;
+    case 'medium':
+      return css`
+        padding: 1.0rem 1.6rem;
+        font-size: 1.4rem;
+        line-height: 2.2rem;
       `;
     case 'large':
       return css`
-        padding: 16px 32px;
-        font-size: 1.125rem;
-        min-height: 48px;
+        padding: 1.4rem 1.6rem;
+        font-size: 1.6rem;
+        line-height: 2.4rem;
       `;
-    case 'medium':
+    case 'text':
+      return css`
+        font-size: 1.4rem;
+        line-height: 2.2rem;
+      `;
     default:
       return css`
-        padding: 12px 24px;
-        font-size: 1rem;
-        min-height: 40px;
+        padding: 1.0rem 1.6rem;
+        font-size: 1.4rem;
+        line-height: 2.2rem;
       `;
   }
 };
 
 // 버튼 변형별 스타일 정의
-const getVariantStyles = (variant, theme) => {
+const getVariantStyles = (variant) => {
   const variants = {
     primary: css`
-      background-color: ${theme.colors.primary || '#2196f3'};
-      color: ${theme.colors.white || '#ffffff'};
+      background-color: ${theme.button.primary.bg};
+      color: ${theme.colors.black};
       &:hover:not(:disabled) {
-        background-color: ${theme.colors.primaryDark || '#1976d2'};
+      }
+      &:disabled {
+        background-color: ${opacity(theme.button.primary.bg, 0.3)};
+        color: ${opacity(theme.button.primary.text, 0.3)};
       }
     `,
     secondary: css`
-      background-color: ${theme.colors.secondary || '#f5f5f5'};
-      color: ${theme.colors.text || '#333333'};
-      border: 1px solid ${theme.colors.border || '#dddddd'};
+      background-color: ${theme.button.secondary.bg};
+      color: ${theme.button.secondary.text};
       &:hover:not(:disabled) {
-        background-color: ${theme.colors.secondaryDark || '#e0e0e0'};
+      }
+      &:disabled {
+        background-color: ${opacity(theme.button.secondary.bg, 0.3)};
+        color: ${opacity(theme.button.secondary.text, 0.3)};
       }
     `,
     danger: css`
@@ -70,9 +87,9 @@ export const StyledButton = styled.button`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 4px;
   font-weight: 500;
   border: none;
+  border-radius: 0.8rem;
   cursor: pointer;
   transition: all 0.2s ease;
   position: relative;
@@ -83,11 +100,11 @@ export const StyledButton = styled.button`
   ${({ size }) => getSizeStyles(size)}
 
   /* 변형 스타일 */
-  ${({ variant, theme }) => getVariantStyles(variant, theme)}
+  ${({ variant }) => getVariantStyles(variant)}
   
   /* 비활성화 스타일 */
   &:disabled {
-    opacity: 0.6;
+    opacity: 1;
     cursor: not-allowed;
     pointer-events: none;
   }
@@ -96,9 +113,9 @@ export const StyledButton = styled.button`
   .button-icon {
     display: inline-flex;
     margin-right: ${({ iconPosition }) =>
-      iconPosition === 'right' ? 0 : '8px'};
+      iconPosition === 'right' ? 0 : '0.8rem'};
     margin-left: ${({ iconPosition }) =>
-      iconPosition === 'right' ? '8px' : 0};
+      iconPosition === 'right' ? '0.8rem' : 0};
   }
 
   /* 전체 너비 */
@@ -107,10 +124,10 @@ export const StyledButton = styled.button`
   /* 로딩 상태 스타일 */
   .loading-spinner {
     position: relative;
-    width: 16px;
-    height: 16px;
-    margin-right: 8px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    width: 1.6rem;
+    height: 1.6rem;
+    margin-right: 0.8rem;
+    border: 0.2rem solid rgba(255, 255, 255, 0.3);
     border-radius: 50%;
     border-top-color: white;
     animation: spin 0.8s linear infinite;

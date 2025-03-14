@@ -1,27 +1,30 @@
 import { css } from '@emotion/react';
 
 const globalStyles = (theme) => css`
-  :root {
-    /* 색상 변수 */
-    ${Object.entries(theme.colors)
-      .map(([key, value]) => `--color-${key}: ${value};`)
-      .join('\n    ')}
-
-    /* 폰트 사이즈 변수 */
-    ${Object.entries(theme.fontSizes)
-      .map(([key, value]) => `--font-size-${key}: ${value};`)
-      .join('\n    ')}
-  }
-
   html,
   body {
     max-width: 100vw;
   }
 
+  html {
+    overflow-y: scroll; 
+    font-size: 62.5%;
+    line-height: 1.5;
+  }
+
+  /* lang 속성으로 폰트 지정 */
+  :lang(en) {
+    font-family: var(--font-poppins), sans-serif !important;
+  }
+  
+  :lang(ko) {
+    font-family: var(--font-pretendard), sans-serif !important;
+  }
+  
   body {
+    font-size: 1.4rem;
     color: var(--color-text);
     background: var(--color-background);
-    font-family: Arial, Helvetica, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }

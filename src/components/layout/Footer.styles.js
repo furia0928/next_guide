@@ -4,10 +4,10 @@ export const StyledFooter = styled.footer`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 16px;
+  padding: 1.6rem;
   background-color: #f5f5f5;
   color: #333;
-  font-size: 0.875rem;
-  height: 60px;
+  font-size: 1.4rem;
+  height: 6rem;
   border-top: 1px solid #eaeaea;
 `;

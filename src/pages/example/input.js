@@ -5,6 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import Input from '@/components/forms/Input/Input';
 import FormField from '@/components/forms/FormField/FormField';
+import { rem, theme } from '@/styles/theme';
 
 // 유효성 검사 스키마 정의
 const validationSchema = yup.object().shape({
@@ -125,6 +126,7 @@ const InputEx = () => {
                 placeholder="사용자 이름을 입력하세요"
                 required
                 fullWidth
+                disabled
               />
             </FormField>
           </Section>
@@ -256,78 +258,78 @@ const InputEx = () => {
 };
 
 const Container = styled.div`
-  max-width: 800px;
+  max-width: 80rem;
   margin: 0 auto;
-  padding: 40px 20px;
+  padding: 0.4rem 0.2rem;
   font-family: 'Pretendard', sans-serif;
 `;
 
 const Section = styled.section`
-  margin-bottom: 40px;
+  margin-bottom: 0.4rem;
 
   h2 {
-    margin-bottom: 16px;
-    font-size: 18px;
+    margin-bottom: 1.6rem;
+    font-size: 1.8rem;
     font-weight: 600;
   }
 
   .field-error {
     input {
-      border-color: #dc3545;
+      border-color: ${theme.colors.error};
     }
   }
 
   .field-valid {
     input {
-      border-color: #28a745;
+      border-color: ${theme.colors.success};
     }
   }
 `;
 
 const FieldStatus = styled.div`
-  font-size: 12px;
-  margin-top: 4px;
+  font-size: 1.2rem;
+  margin-top: 0.4rem;
 
   &.valid {
-    color: #28a745;
+    color: ${theme.colors.success};
   }
 
   &.error {
-    color: #dc3545;
+    color: ${theme.colors.error};
   }
 `;
 
 const FormStatusBar = styled.div`
   display: flex;
-  gap: 15px;
-  background-color: #f8f9fa;
-  padding: 12px 16px;
-  border-radius: 4px;
-  margin-bottom: 24px;
+  gap: 1.5rem;
+  background-color: ${theme.colors.gray100};
+  padding: 1.2rem 1.6rem;
+  border-radius: 0.4rem;
+  margin-bottom: 2.4rem;
   flex-wrap: wrap;
 `;
 
 const FormStatusItem = styled.div`
-  font-size: 14px;
+  font-size: 1.4rem;
   font-weight: 500;
-  padding: 4px 8px;
-  border-radius: 4px;
-  background-color: #e9ecef;
+  padding: 0.4rem 0.8rem;
+  border-radius: 0.4rem;
+  background-color: ${theme.colors.gray200};
 
   &.active {
-    background-color: #cfe2ff;
-    color: #0a58ca;
+    background-color: ${theme.colors.primary};
+    color: ${theme.colors.white};
   }
 
   &.valid {
-    background-color: #d1e7dd;
-    color: #0f5132;
+    background-color: ${theme.colors.success};
+    color: ${theme.colors.white};
   }
 `;
 
 const SizeWrapper = styled.div`
   display: flex;
-  gap: 16px;
+  gap: 1.6rem;
 
   .size-input {
     flex: 1;
@@ -341,72 +343,73 @@ const SizeWrapper = styled.div`
 const FormInfoGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 16px;
-  margin-bottom: 20px;
+  gap: 1.6rem;
+  margin-bottom: 2rem;
 `;
 
 const FormInfoItem = styled.div`
-  background-color: #f8f9fa;
-  padding: 12px;
-  border-radius: 4px;
+  background-color: ${theme.colors.gray100};
+  padding: 1.2rem;
+  border-radius: 0.4rem;
 
   h3 {
-    font-size: 14px;
+    font-size: 1.4rem;
     font-weight: 500;
-    margin-bottom: 8px;
-    color: #6c757d;
+    margin-bottom: 0.8rem;
+    color: ${theme.colors.gray700};
   }
 `;
 
 const InfoValue = styled.div`
-  font-size: 14px;
+  font-size: 1.4rem;
   word-break: break-all;
 `;
 
 const CodePreview = styled.pre`
-  background-color: #f5f5f5;
-  padding: 16px;
-  border-radius: 4px;
+  background-color: ${theme.colors.gray100};
+  padding: 1.6rem;
+  border-radius: 0.4rem;
   font-family: 'Courier New', monospace;
-  font-size: 14px;
+  font-size: 1.4rem;
   overflow-x: auto;
 `;
 
 const ValidationStatus = styled.div`
-  margin-bottom: 16px;
-  padding: 16px;
-  background-color: #f9f9f9;
-  border-radius: 4px;
-  border-left: 4px solid ${(props) => (props.error ? '#dc3545' : '#28a745')};
+  margin-bottom: 1.6rem;
+  padding: 1.6rem;
+  background-color: ${theme.colors.gray100};
+  border-radius: 0.4rem;
+  border-left: 0.4rem solid ${(props) => (props.error ? theme.colors.error : theme.colors.success)};
   transition: border-color 0.3s ease;
 
   h3 {
-    margin-bottom: 8px;
-    font-size: 16px;
+    margin-bottom: 0.8rem;
+    font-size: 1.6rem;
     font-weight: 500;
   }
 
   ul {
     list-style: none;
     padding: 0;
+    font-size: 1.4rem;  
   }
 
   li {
-    margin-bottom: 4px;
-    color: #dc3545;
+    margin-bottom: 0.4rem;
+    color: ${theme.colors.error};
   }
 
   li.success {
-    color: #28a745;
+    color: ${theme.colors.success};
   }
 `;
 
 const SuccessAlert = styled.div`
-  margin-bottom: 24px;
-  padding: 16px;
-  background-color: #d1e7dd;
-  color: #0f5132;
-  border-radius: 4px;
+  margin-bottom: 2.4rem;
+  padding: 1.6rem;
+  background-color: ${theme.colors.success};
+  color: ${theme.colors.white};
+  border-radius: 0.4rem;
   font-weight: 500;
   text-align: center;
   animation: fadeIn 0.3s ease;
@@ -425,7 +428,7 @@ const SuccessAlert = styled.div`
 
 const ButtonGroup = styled.div`
   display: flex;
-  gap: 16px;
+  gap: 1.6rem;
 
   @media (max-width: 480px) {
     flex-direction: column;
@@ -433,19 +436,19 @@ const ButtonGroup = styled.div`
 `;
 
 const SubmitButton = styled.button`
-  background-color: #2196f3;
-  color: white;
+  background-color: ${theme.colors.primary};
+  color: ${theme.colors.white};
   border: none;
-  border-radius: 4px;
-  padding: 12px 24px;
-  font-size: 16px;
+  border-radius: 0.4rem;
+  padding: 1.2rem 2.4rem;
+  font-size: 1.6rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s;
   flex: 1;
 
   &:hover:not(:disabled) {
-    background-color: #1976d2;
+    background-color: ${theme.colors.primary};
   }
 
   &:focus {
@@ -454,26 +457,26 @@ const SubmitButton = styled.button`
   }
 
   &:disabled {
-    background-color: #cccccc;
+    background-color: ${theme.colors.gray200};
     cursor: not-allowed;
     opacity: 0.7;
   }
 `;
 
 const ResetButton = styled.button`
-  background-color: #e9ecef;
-  color: #495057;
+  background-color: ${theme.colors.gray200};
+  color: ${theme.colors.gray700};
   border: none;
-  border-radius: 4px;
-  padding: 12px 24px;
-  font-size: 16px;
+  border-radius: 0.4rem;
+  padding: 1.2rem 2.4rem;
+  font-size: 1.6rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s;
   flex: 1;
 
   &:hover:not(:disabled) {
-    background-color: #dee2e6;
+    background-color: ${theme.colors.gray200};
   }
 
   &:focus {
@@ -482,7 +485,7 @@ const ResetButton = styled.button`
   }
 
   &:disabled {
-    color: #adb5bd;
+    color: ${theme.colors.gray400};
     cursor: not-allowed;
     opacity: 0.7;
   }

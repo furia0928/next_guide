@@ -3,7 +3,7 @@ import { extractCritical } from '@emotion/server';
 
 export default function Document({ styles }) {
   return (
-    <Html lang="en">
+    <Html lang="ko">
       <Head>{styles}</Head>
       <body>
         <Main />

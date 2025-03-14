@@ -1,14 +1,16 @@
 import styled from '@emotion/styled';
+import { theme } from '@/styles/theme';
 
 export const StyledPostsComments = styled.ul`
-  padding: 20px;
-  background-color: ${({ theme }) => theme.colors.backgroundLight || '#eee'};
-  border-radius: 10px;
+  padding: 2rem;
+  background-color: ${theme.colors.gray100};
+  border-radius: 1rem;
   list-style: none;
+  font-size: 1.4rem;
 
   li {
-    padding: 12px 0;
-    border-bottom: 1px solid ${({ theme }) => theme.colors.border || '#ccc'};
+    padding: 1.2rem 0;
+    border-bottom: 0.1rem solid ${theme.colors.border};
 
     &:last-child {
       border-bottom: none;
@@ -16,17 +18,17 @@ export const StyledPostsComments = styled.ul`
   }
 
   .comment-body {
-    margin-bottom: 8px;
+    margin-bottom: 0.8rem;
   }
 
   .comment-author {
-    color: ${({ theme }) => theme.colors.primary || 'red'};
-    margin-right: 12px;
+    color: ${theme.colors.primary};
+    margin-right: 1.2rem;
     font-weight: 500;
   }
 
   .comment-email {
-    color: ${({ theme }) => theme.colors.secondary || 'blue'};
+    color: ${theme.colors.secondary};
     font-size: 0.9em;
   }
 `;

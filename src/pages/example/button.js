@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import Button from '../../components/buttons/Button';
+import Button from '@/components/buttons/Button/Button';
 
 const ButtonExample = () => {
   const [isLoading, setIsLoading] = useState(false);

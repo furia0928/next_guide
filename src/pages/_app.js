@@ -8,6 +8,7 @@ import theme from '@/styles/theme';
 import globalStyles from '@/styles/globalStyles';
 import Head from 'next/head';
 import Wrap from '@/components/layout/Wrap';
+import { pretendard, poppins } from '@/styles/fonts';
 
 export default function App({ Component, pageProps }) {
   return (
@@ -36,10 +37,12 @@ export default function App({ Component, pageProps }) {
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <ThemeProvider theme={theme}>
-          <Global styles={(theme) => globalStyles(theme)} />
-          <Wrap>
-            <Component {...pageProps} />
-          </Wrap>
+          <div className={`${pretendard.variable}`}>
+            <Global styles={(theme) => globalStyles(theme)} />
+            <Wrap>
+              <Component {...pageProps} />
+            </Wrap>
+          </div>
         </ThemeProvider>
       </SWRConfig>
     </ErrorBoundary>

@@ -1,14 +1,15 @@
 import styled from '@emotion/styled';
+import { theme } from '@/styles/theme';
 
 export const StyledUsers = styled.div`
-  padding: 20px;
-  background-color: ${({ theme }) =>
-    theme.colors.background || 'var(--background)'};
-  border-radius: 10px;
+  padding: 2rem;
+  background-color: ${theme.colors.white};
+  border-radius: 1rem;
+  font-size: 1.4rem;
 
   h2 {
-    color: ${({ theme }) => theme.colors.text || 'var(--text)'};
-    margin-bottom: 16px;
+    color: ${theme.colors.gray700};
+    margin-bottom: 1.6rem;
   }
 
   ul {
@@ -17,8 +18,8 @@ export const StyledUsers = styled.div`
   }
 
   li {
-    padding: 8px 0;
-    border-bottom: 1px solid ${({ theme }) => theme.colors.border || '#eaeaea'};
+    padding: 0.8rem 0;
+    border-bottom: 0.1rem solid ${theme.colors.gray300};
 
     &:last-child {
       border-bottom: none;

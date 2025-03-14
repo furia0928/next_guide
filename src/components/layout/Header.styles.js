@@ -12,13 +12,13 @@ export const StyledHeader = styled.header`
 
   nav {
     display: flex;
-    gap: 16px;
+    gap: 1.6rem;
   }
 
   a {
     text-decoration: none;
     color: white;
-    font-size: 1rem;
+    font-size: 1.4rem;
     transition: color 0.2s;
 
     &:hover {
@@ -31,7 +31,7 @@ export const StyledHeader = styled.header`
     border: none;
     color: white;
     cursor: pointer;
-    font-size: 1rem;
+    font-size: 1.4rem;
 
     &:hover {
       color: #d1e0f3;

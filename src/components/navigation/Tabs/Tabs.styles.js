@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { theme } from '@/styles/theme';
 
 export const StyledTabs = styled.div`
   font-family: sans-serif;
@@ -6,38 +7,38 @@ export const StyledTabs = styled.div`
 
   .tab-header {
     display: flex;
-    border-bottom: 1px solid #ccc;
-    margin-bottom: 16px;
+    border-bottom: 0.1rem solid ${theme.colors.border};
+    margin-bottom: 1.6rem;
   }
 
   .tab-button {
-    padding: 8px 16px;
-    background: ${({ theme }) => theme?.colors?.background || 'transparent'};
+    padding: 0.8rem 1.6rem;
+    background: ${theme.colors.gray100};
     border: none;
-    border-bottom: 2px solid transparent;
+    border-bottom: 0.2rem solid transparent;
     cursor: pointer;
     font-weight: normal;
-    margin-right: 8px;
+    margin-right: 0.8rem;
     transition: all 0.3s;
 
     &:hover {
-      background: #f0f0f0;
+      background: ${theme.colors.gray300};
     }
 
     &:focus {
       outline: none;
-      box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.3);
+      background: ${theme.colors.gray100};
     }
 
     &.active {
-      background: #f0f0f0;
+      background: ${theme.colors.primary};
       font-weight: bold;
-      border-bottom: 2px solid
-        ${({ theme }) => theme?.colors?.primary || '#2196f3'};
+      border-bottom: 0.2rem solid ${theme.colors.primary};
     }
   }
 
   .tab-content {
-    padding: 8px;
+    padding: 0.8rem;
+    font-size: 1.4rem;
   }
 `;

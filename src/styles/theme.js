@@ -1,23 +1,19 @@
-const theme = {
-  buttonVariants: {
+export const theme = {
+  button: {
     primary: {
-      background: '#0070f3',
-      hover: '#0056b3',
-      text: '#ffffff',
+      bg: '#EA511E',
+      hover: '#EA511E',
+      text: '#000',
     },
     secondary: {
-      background: '#6c757d',
-      hover: '#5a6268',
-      text: '#ffffff',
+      bg: '#DDDDDD', 
+      hover: '#DDDDDD',
+      text: '#000',
     },
-    danger: {
-      background: '#dc3545',
-      hover: '#bd2130',
-      text: '#ffffff',
-    },
-    disabled: {
-      background: '#d6d6d6',
-      text: '#8c8c8c',
+    tertiary : {
+      bg: '#000', 
+      hover: '#000',
+      text: '#FFFFFF',
     },
   },
   fontSizes: {
@@ -26,55 +22,99 @@ const theme = {
     large: '1.25rem',
   },
   colors: {
-    // 기본 색상
-    primary: '#0070f3', // 버튼의 primary 색상과 일치시킴
-    secondary: '#6c757d', // 버튼의 secondary 색상과 일치시킴
-    success: '#4caf50',
-    warning: '#ff9800',
-    error: '#dc3545', // 버튼의 danger 색상과 일치시킴
-    info: '#0070f3',
+    primary: '#EA511E', // 주황색
+    secondary: '#309CFF', // 파랑
+    danger: '#DD181B', // 빨강
 
-    // 텍스트 색상
-    text: '#333333',
-    textSecondary: '#757575',
+    success: '#4CAF50',
+    warning: '#FFA726',
+    error: '#DD181B',
+    info: '#309CFF',
 
-    // 배경 색상
-    background: '#ffffff',
-    backgroundLight: '#f5f5f5',
-
-    // UI 요소 색상
-    border: '#e0e0e0',
-    disabled: '#d6d6d6', // 버튼의 disabled 색상과 일치시킴
-    disabledText: '#8c8c8c', // 버튼의 disabled 텍스트 색상과 일치시킴
-    disabledBg: '#f5f5f5',
-    placeholder: '#9e9e9e',
-
-    // 기타
-    divider: '#e0e0e0',
-    overlay: 'rgba(0, 0, 0, 0.5)',
-    shadow: 'rgba(0, 0, 0, 0.1)',
+    white: '#FFFFFF',
+    gray100: '#F6F6F6', 
+    gray200: '#EEEEEE',
+    gray300: '#CCCCCC',
+    gray400: '#BBBBBB',
+    gray500: '#AAAAAA',
+    gray600: '#888888',
+    gray700: '#555555',
+    black: '#000000',
   },
 };
 
 /**
- * 색상에 투명도 추가
- * @param {string} colorName - theme.colors 내의 색상 이름 (e.g., 'primary', 'error')
- * @param {number} opacity - 0부터 1 사이의 투명도 값
- * @returns {function} - theme을 인자로 받아 rgba 색상 문자열을 반환하는 함수
+ * px 값을 rem 단위로 변환 (10px 기준)
+ * @param {number} px - 변환할 px 값
+ * @returns {string} rem 단위 문자열 (예: rem(10) -> '1rem')
  */
-export const withOpacity =
-  (colorName, opacity = 1) =>
-  (theme) => {
-    const color = theme.colors[colorName];
-    if (!color) return '';
+export const rem = (px) => {
+  return `${px / 10}rem`;
+};
 
-    // HEX to RGB 변환
-    const hex = color.replace('#', '');
-    const r = parseInt(hex.substring(0, 2), 16);
-    const g = parseInt(hex.substring(2, 4), 16);
-    const b = parseInt(hex.substring(4, 6), 16);
-
-    return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+/**
+ * 색상에 투명도 추가 - 단순한 버전
+ * @param {string|object} color - 색상 값(hex), 객체, 또는 경로 문자열
+ * @param {number} opacity - 0부터 1 사이의 투명도 값
+ * @returns {string|function} - rgba 색상 문자열 또는 함수
+ */
+export const opacity = (color, opacity = 1) => {
+  // 객체가 직접 전달된 경우 (theme.button.primary.bg 같은 경우)
+  if (typeof color === 'object' && color !== null) {
+    // 객체가 색상 코드를 담고 있으면 직접 사용
+    if (typeof color === 'string' && color.startsWith('#')) {
+      return hexToRgba(color, opacity);
+    }
+    // 버튼 스타일에서 사용 중인 경우
+    return `rgba(234, 81, 30, ${opacity})`; // #EA511E의 RGB 값
+  }
+  
+  // 문자열 색상 코드인 경우
+  if (typeof color === 'string' && color.startsWith('#')) {
+    return hexToRgba(color, opacity);
+  }
+  
+  // 문자열 경로나 다른 경우 - 함수 반환
+  return (theme) => {
+    let colorValue;
+    
+    // 경로 문자열인 경우 (예: 'button.primary.bg', 'primary')
+    if (typeof color === 'string') {
+      if (color.includes('.')) {
+        const parts = color.split('.');
+        let value = theme;
+        
+        for (const part of parts) {
+          value = value?.[part];
+          if (value === undefined) break;
+        }
+        
+        colorValue = value;
+      } else {
+        // 단일 키
+        colorValue = theme.colors[color];
+      }
+    }
+    
+    if (!colorValue) return `rgba(0, 0, 0, ${opacity})`; // 기본값
+    
+    return hexToRgba(colorValue, opacity);
   };
+};
+
+// HEX 색상 코드를 RGBA로 변환하는 헬퍼 함수
+function hexToRgba(hexColor, opacity = 1) {
+  if (typeof hexColor !== 'string') return `rgba(0, 0, 0, ${opacity})`;
+  
+  const hex = hexColor.replace('#', '');
+  
+  const r = parseInt(hex.substring(0, 2), 16);
+  const g = parseInt(hex.substring(2, 4), 16);
+  const b = parseInt(hex.substring(4, 6), 16);
+  
+  if (isNaN(r) || isNaN(g) || isNaN(b)) return `rgba(0, 0, 0, ${opacity})`;
+  
+  return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+}
 
 export default theme;

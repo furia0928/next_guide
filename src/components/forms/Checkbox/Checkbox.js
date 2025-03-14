@@ -30,7 +30,6 @@ const Checkbox = forwardRef(
       disabled = false,
       required = false,
       fullWidth = false,
-      alignTop = false,
       className,
       ...rest
     },
@@ -55,7 +54,6 @@ const Checkbox = forwardRef(
         checked={checked}
         error={!!error}
         disabled={disabled}
-        alignTop={alignTop}
         fullWidth={fullWidth}
         className={className}
       >
@@ -115,8 +113,6 @@ Checkbox.propTypes = {
   required: PropTypes.bool,
   /** 전체 너비 사용 여부 */
   fullWidth: PropTypes.bool,
-  /** 레이블을 위쪽에 정렬할지 여부 */
-  alignTop: PropTypes.bool,
   /** 추가 클래스명 */
   className: PropTypes.string,
 };

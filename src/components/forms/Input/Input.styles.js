@@ -1,109 +1,72 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { withOpacity } from '@/styles/theme';
-
-const getSizeStyles = (size) => {
-  switch (size) {
-    case 'small':
-      return css`
-        padding: 6px 10px;
-        font-size: 12px;
-      `;
-    case 'large':
-      return css`
-        padding: 12px 16px;
-        font-size: 16px;
-      `;
-    case 'medium':
-    default:
-      return css`
-        padding: 8px 12px;
-        font-size: 14px;
-      `;
-  }
-};
+import { rem, theme } from '@/styles/theme';
 
 export const StyledInput = styled.div`
   display: flex;
   flex-direction: column;
-  margin-bottom: 16px;
+  margin-bottom: 1.6rem;
   width: ${({ fullWidth }) => (fullWidth ? '100%' : 'auto')};
 
   /* 입력 필드 레이블 */
   .input-label {
-    font-size: 14px;
-    font-weight: 500;
-    margin-bottom: 4px;
-    color: ${({ error, disabled, theme }) => {
+    font-size: 1.3rem;
+    line-height: 2.0rem;
+    font-weight: 400;
+    margin-bottom: 0.8rem;
+    color: ${({ error, disabled }) => {
       if (error) return theme.colors.error;
-      if (disabled) return theme.colors.disabledText;
-      return theme.colors.text;
+      if (disabled) return theme.colors.gray400;
+      return theme.colors.black;
     }};
   }
 
   /* 필수 표시 마크 */
   .required-mark {
-    color: ${({ theme }) => theme.colors.error};
-    margin-left: 2px;
+    font-weight: 600;
+    color: ${theme.colors.primary};
+    margin-left: ${rem(4)};
   }
 
   /* 입력 필드 */
   .input-field {
-    border: 1px solid
-      ${({ error, theme }) =>
-        error ? theme.colors.error : theme.colors.border};
-    border-radius: 4px;
+    border: 1px solid ${({ error }) => error ? theme.colors.error : theme.colors.gray300};
+    border-radius: 0.8rem;
     outline: none;
     transition: border-color 0.2s, box-shadow 0.2s;
     width: 100%;
-    color: ${({ theme }) => theme.colors.text};
-    background-color: ${({ theme }) => theme.colors.background};
+    color: ${theme.colors.text};
+    background-color: ${theme.colors.white};
+
+    padding: 1.4rem 1.6rem;
+    font-size: 1.6rem;
+    line-height: 2.4rem;
 
     &:focus {
-      border-color: ${({ error, theme }) =>
-        error ? theme.colors.error : theme.colors.primary};
-      box-shadow: 0 0 0 1px
-        ${({ error, theme }) =>
-          withOpacity(error ? 'error' : 'primary', 0.1)(theme)};
+      border-color: ${({ error }) => error ? theme.colors.error : theme.colors.gray700};
     }
 
     &:disabled {
-      background-color: ${({ theme }) => theme.colors.disabledBg};
-      border-color: ${({ theme }) => theme.colors.disabled};
+      background-color: ${theme.colors.gray200};
+      border-color: ${theme.colors.gray300};
       cursor: not-allowed;
-      color: ${({ theme }) => theme.colors.disabledText};
+      color: ${theme.colors.gray400};
     }
 
     &::placeholder {
-      color: ${({ theme }) => theme.colors.placeholder};
-    }
-
-    /* 크기별 스타일 */
-    &.size-small {
-      padding: 6px 10px;
-      font-size: 12px;
-    }
-
-    &.size-medium {
-      padding: 8px 12px;
-      font-size: 14px;
-    }
-
-    &.size-large {
-      padding: 12px 16px;
-      font-size: 16px;
+      color: ${theme.colors.gray400};
     }
   }
 
   /* 헬퍼 텍스트 */
   .helper-text {
-    font-size: 12px;
-    margin: 4px 0 0;
-    color: ${({ error, theme }) =>
-      error ? theme.colors.error : theme.colors.textSecondary};
+    font-size: 1.3rem;
+    line-height: 2.0rem;
+    margin: 0.4rem 0 0 2.0rem;
+    color: ${({ error }) => error ? theme.colors.error : theme.colors.black};
 
     &.valid {
-      color: ${({ theme }) => theme.colors.success || '#28a745'};
+      color: ${theme.colors.success};
       display: flex;
       align-items: center;
     }

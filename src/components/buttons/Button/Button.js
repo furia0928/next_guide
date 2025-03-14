@@ -2,10 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { StyledButton } from './Button.styles';
 
-/**
- * Button 컴포넌트는 사용자 액션을 위한 클릭 가능한 요소입니다.
- * 다양한 스타일 변형과 크기를 지원합니다.
- */
 const Button = ({
   children,
   variant = 'primary',

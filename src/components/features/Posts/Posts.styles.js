@@ -1,21 +1,23 @@
 import styled from '@emotion/styled';
+import { theme } from '@/styles/theme';
 
 export const StyledPosts = styled.div`
-  padding: 20px;
-  background-color: ${({ theme }) => theme.colors.background};
-  border-radius: 10px;
+  padding: 2rem;
+  background-color: ${theme.colors.background};
+  border-radius: 1rem;
+  font-size: 1.4rem;
 
   h2 {
-    color: ${({ theme }) => theme.colors.text};
+    color: ${theme.colors.text};
   }
   li {
     a {
-      color: ${({ theme }) => theme.colors.text};
+      color: ${theme.colors.text};
       display: block;
-      padding: 10px 0;
+      padding: 1rem 0;
     }
     & + li a {
-      border-top: 1px solid ${({ theme }) => theme.colors.error};
+      border-top: 0.1rem solid ${theme.colors.error};
     }
   }
 `;
