@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { fetchData } from '@/lib/axiosInstance';
 
 const API_BASE_URL = 'http://localhost:8000';
 
@@ -11,14 +12,16 @@ export default function JanusDemo() {
   const [analysisResponse, setAnalysisResponse] = useState('');
 
   const generateText = async () => {
-    const res = await fetch(`http://0.0.0.0:8000/ask`, {
-      method: 'POST',
+    const res = await fetchData(`/posts`, 'POST', {
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ prompt: textPrompt }),
+      body: JSON.stringify({
+        title: 'foo',
+        body: 'bar',
+        userId: 1,
+      }),
     });
-    const data = await res.json();
-    console.log(data);
-    setTextResponse(data.response);
+    console.log(res);
+    setTextResponse(res.id);
   };
 
   const generateImage = async () => {

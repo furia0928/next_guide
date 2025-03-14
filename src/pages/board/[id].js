@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import { PostsComments } from '@/components/ui/PostsComments/PostsComments';
+import { PostsComments } from '@/components/features/PostsComments/PostsComments';
 import { withSSRProps } from '@/lib/axiosInstance';
 import Button from '@/components/buttons/Button/Button';
 import Tabs from '@/components/navigation/Tabs/Tabs';

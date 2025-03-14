@@ -1,20 +1,22 @@
 import useNumberStore from '@/store/numberStore';
 import Button from '@/components/buttons/Button/Button';
 import useSWR from 'swr';
+import { withSSRProps } from '@/lib/axiosInstance';
 
-/*export const getServerSideProps = withSSRProps(() => {
+export const getServerSideProps = withSSRProps(() => {
   return ['/users'];
-});*/
+});
 
-export default function Home({}) {
+export default function Home({ initialData }) {
   const { number, increase, decrease, reset } = useNumberStore();
-
-  const { data: users } = useSWR('/users');
+  const { data: users } = useSWR('/users', {
+    fallbackData: initialData[`/users`],
+  });
 
   console.log(users);
 
   return (
-    <div>
+    <>
       <ul>
         {users &&
           users.map((user) => (
@@ -41,6 +43,6 @@ export default function Home({}) {
       <Button variant="primary" size="small" disabled>
         disabled
       </Button>
-    </div>
+    </>
   );
 }

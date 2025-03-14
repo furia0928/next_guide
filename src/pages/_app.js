@@ -2,13 +2,14 @@ import { SWRConfig } from 'swr';
 import { ErrorBoundary } from 'react-error-boundary';
 import ErrorFallback from '@/components/ErrorFallback';
 import { fetchData } from '@/lib/axiosInstance';
-import { Global } from '@emotion/react';
-import { ThemeProvider } from '@emotion/react';
+import { Global, ThemeProvider } from '@emotion/react';
 import theme from '@/styles/theme';
 import globalStyles from '@/styles/globalStyles';
 import Head from 'next/head';
 import Wrap from '@/components/layout/Wrap';
-import { pretendard, poppins } from '@/styles/fonts';
+import { pretendard } from '@/styles/fonts';
+import React from 'react';
+import ModalContainer from '@/components/feedback/Modal/ModalContainer';
 
 export default function App({ Component, pageProps }) {
   return (
@@ -43,6 +44,7 @@ export default function App({ Component, pageProps }) {
               <Component {...pageProps} />
             </Wrap>
           </div>
+          <ModalContainer />
         </ThemeProvider>
       </SWRConfig>
     </ErrorBoundary>
