@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { StyledSelect } from './Select.styles';
 
@@ -40,6 +40,10 @@ const Select = ({
   const selectWrap = useRef(null);
   const selectBox = useRef(null);
   const dropdownRef = useRef(null);
+
+  useEffect(()=>{
+    console.log('selectClickState', selectClickState.current);
+  }, [selectClickState.current])
 
   // 선택된 옵션 찾기
   const selectedOption = options.find(option => option.value === value);
@@ -100,17 +104,18 @@ const Select = ({
     setFocused(true);
   };
   
-  const handleBlur = () => {
-    setTimeout(()=>{
-      if (!selectClickState.current) {
-        setFocused(false);
-      } else {
-        setOpen(false);
-        selectBox.current.focus();
-      }
-      selectClickState.current = false;
-    },100)
-  };
+  const handleBlur = useCallback(()=>{
+      setTimeout(()=>{
+        if (selectClickState.current) {
+          console.log(11);
+          setFocused(false);
+          setOpen(false);
+          selectBox.current.focus();
+        } 
+        console.log(22);
+        selectClickState.current = false;
+      }, 100)
+  }, [selectClickState.current]);
 
   // 키보드 접근성
   const handleKeyDown = (e) => {
@@ -211,6 +216,8 @@ const Select = ({
               key={option.value}
               className={`select-option ${option.value === value ? 'selected' : ''} ${option.disabled ? 'disabled' : ''}`}
               onClick={() => {
+                console.log('t');
+            
                 selectClickState.current = true;
                 handleOptionSelect(option)
               }}
