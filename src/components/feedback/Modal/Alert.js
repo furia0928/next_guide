@@ -1,5 +1,5 @@
 import Modal from '@/components/feedback/Modal/Modal';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useModalStore } from '@/store/modalStore';
 import Button from '@/components/buttons/Button/Button';
 
@@ -9,10 +9,6 @@ const Alert = () => {
   const alertList = useMemo(() => {
     return modalList.filter((modal) => modal.name.includes('alert'));
   }, [modalList]);
-
-  useEffect(() => {
-    console.log('alertList', alertList);
-  }, [alertList]);
 
   return (
     <>

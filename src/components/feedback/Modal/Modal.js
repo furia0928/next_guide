@@ -56,7 +56,6 @@ const Modal = ({
     );
   };
   const onModalExit = () => {
-    console.log(nodeRef.current, modalSpeed);
     gsap.fromTo(
       nodeRef.current,
       { autoAlpha: 1, ease: 'power3.out' },
