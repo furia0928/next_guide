@@ -107,12 +107,11 @@ const Select = ({
   const handleBlur = useCallback(()=>{
       setTimeout(()=>{
         if (selectClickState.current) {
-          console.log(11);
-          setFocused(false);
           setOpen(false);
           selectBox.current.focus();
-        } 
-        console.log(22);
+        } else {
+          setFocused(false);
+        }
         selectClickState.current = false;
       }, 100)
   }, [selectClickState.current]);
@@ -216,8 +215,6 @@ const Select = ({
               key={option.value}
               className={`select-option ${option.value === value ? 'selected' : ''} ${option.disabled ? 'disabled' : ''}`}
               onClick={() => {
-                console.log('t');
-            
                 selectClickState.current = true;
                 handleOptionSelect(option)
               }}
