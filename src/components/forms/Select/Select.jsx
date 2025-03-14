@@ -157,34 +157,36 @@ const Select = ({
       
       <div className="select-wrapper">
         {/* 네이티브 셀렉트 (접근성) */}
-        <select
-          ref={selectBox}
-          id={id}
-          name={name}
-          value={value}
-          onChange={handleNativeChange}
-          onFocus={handleFocus}
-          onKeyDown={handleKeyDown}
-          onBlur={handleBlur}
-          disabled={disabled}
-          required={required}
-          className="select-native"
-          aria-invalid={error ? 'true' : 'false'}
-          {...rest}
-        >
-          <option value="" disabled>
-            {placeholder}
-          </option>
-          {options.map(option => (
-            <option 
-              key={option.value} 
-              value={option.value}
-              disabled={option.disabled}
-            >
-              {option.label}
+        <div className="select-hidden">
+          <select
+            ref={selectBox}
+            id={id}
+            name={name}
+            value={value}
+            onChange={handleNativeChange}
+            onFocus={handleFocus}
+            onKeyDown={handleKeyDown}
+            onBlur={handleBlur}
+            disabled={disabled}
+            required={required}
+            className="select-native"
+            aria-invalid={error ? 'true' : 'false'}
+            {...rest}
+          >
+            <option value="" disabled>
+              {placeholder}
             </option>
-          ))}
-        </select>
+            {options.map(option => (
+              <option
+                key={option.value}
+                value={option.value}
+                disabled={option.disabled}
+              >
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
         
         <div 
           className="select-custom"

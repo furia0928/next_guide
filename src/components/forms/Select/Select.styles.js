@@ -11,6 +11,7 @@ export const StyledSelect = styled.div`
   }
   
   /* 네이티브 셀렉트 (숨김) */
+  .select-hidden {overflow: hidden; height:0; width:0;}
   .select-native {
     position: absolute;
     width: 0;
