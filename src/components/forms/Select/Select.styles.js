@@ -15,7 +15,7 @@ export const StyledSelect = styled.div`
     position: absolute;
     width: 0;
     height: 0;
-    left:-1000vw;
+    left:-300vw;
     cursor: ${({ disabled }) => (disabled ? theme.cursor.notAllowed : theme.cursor.pointer)};
     z-index: 1;
   }

@@ -36,7 +36,9 @@ const Select = ({
 }) => {
   const [open, setOpen] = useState(false);
   const [focused, setFocused] = useState(false);
-  const selectRef = useRef(null);
+  const selectClickState = useRef(false);
+  const selectWrap = useRef(null);
+  const selectBox = useRef(null);
   const dropdownRef = useRef(null);
 
   // 선택된 옵션 찾기
@@ -45,7 +47,7 @@ const Select = ({
   // 셀렉트박스 외부 클릭 감지
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (selectRef.current && !selectRef.current.contains(event.target)) {
+      if (selectWrap.current && !selectWrap.current.contains(event.target)) {
         setOpen(false);
       }
     };
@@ -99,15 +101,25 @@ const Select = ({
   };
   
   const handleBlur = () => {
-    setFocused(false);
-    setOpen(false);
+    setTimeout(()=>{
+      if (!selectClickState.current) {
+        setFocused(false);
+      } else {
+        setOpen(false);
+        selectBox.current.focus();
+      }
+      selectClickState.current = false;
+    },100)
   };
 
   // 키보드 접근성
   const handleKeyDown = (e) => {
     if (disabled) return;
-    
     switch (e.key) {
+      case 'Tab':
+        setOpen(false);
+        setFocused(false);
+        break;
       case 'Enter':
       case ' ':
         e.preventDefault();
@@ -124,7 +136,7 @@ const Select = ({
 
   return (
     <StyledSelect
-      ref={selectRef}
+      ref={selectWrap}
       className={className}
       disabled={disabled}
       error={error}
@@ -142,6 +154,7 @@ const Select = ({
       <div className="select-wrapper">
         {/* 네이티브 셀렉트 (접근성) */}
         <select
+          ref={selectBox}
           id={id}
           name={name}
           value={value}
@@ -169,10 +182,12 @@ const Select = ({
           ))}
         </select>
         
-        {/* 커스텀 셀렉트 UI */}
         <div 
           className="select-custom"
-          onClick={toggleDropdown}
+          onClick={()=>{
+            toggleDropdown();
+            selectBox.current.focus();
+          }}
           onKeyDown={handleKeyDown}
           role="button"
           aria-haspopup="listbox"
@@ -195,7 +210,10 @@ const Select = ({
             <div
               key={option.value}
               className={`select-option ${option.value === value ? 'selected' : ''} ${option.disabled ? 'disabled' : ''}`}
-              onClick={() => handleOptionSelect(option)}
+              onClick={() => {
+                selectClickState.current = true;
+                handleOptionSelect(option)
+              }}
               role="option"
               aria-selected={option.value === value}
               aria-disabled={option.disabled}
