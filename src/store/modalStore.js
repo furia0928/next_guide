@@ -2,14 +2,16 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { v1 } from 'uuid';
 
+const speed = 300;
+
 export const useModalStore = create(
   devtools(
     (set, get) => ({
       // 모달 목록
       modalList: [],
-      modalSpeed: 1000,
+      modalSpeed: speed,
 
-      alert: async ({ title, text, modalSpeed = 1000 }) => {
+      alert: async ({ title, text, modalSpeed = speed }) => {
         const uuid = v1();
         const { modalList } = get();
         return new Promise((resolve, reject) => {
@@ -29,7 +31,7 @@ export const useModalStore = create(
         });
       },
 
-      confirm: async ({ title, text, modalSpeed = 1000 }) => {
+      confirm: async ({ title, text, modalSpeed = speed }) => {
         const uuid = v1();
         const { modalList } = get();
         return new Promise((resolve, reject) => {
@@ -52,7 +54,7 @@ export const useModalStore = create(
 
       modalOpen: async (
         modalName = '',
-        { modalSpeed = 1000, callback } = {}
+        { modalSpeed = speed, callback } = {}
       ) => {
         const { modalList } = get();
         try {
@@ -82,7 +84,7 @@ export const useModalStore = create(
 
       modalClose: async (
         modalName = '',
-        { modalSpeed = 1000, confirm = false, callback } = {}
+        { modalSpeed = speed, confirm = false, callback } = {}
       ) => {
         try {
           const { modalList } = get();
@@ -102,7 +104,7 @@ export const useModalStore = create(
             resolve(confirm);
             set({
               modalList: modalList.filter((modal) => modal.name !== modalName),
-              modalSpeed: 1000,
+              modalSpeed: speed,
             });
             if (callback) callback();
           }, modalSpeed);

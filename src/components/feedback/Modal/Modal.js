@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import { Transition } from 'react-transition-group';
@@ -32,19 +32,20 @@ const Modal = ({
   closeOnEsc = true,
   showCloseButton = true,
 }) => {
+  const [isVisible, setIsVisible] = useState(false);
+
   const { modalList, modalClose, modalSpeed } = useModalStore();
   const nodeRef = useRef(null);
 
-  const isVisible = useMemo(() => {
-    return !!modalList.find((modal) => modal.name === name)?.visible;
+  useEffect(() => {
+    setTimeout(
+      () =>
+        setIsVisible(modalList.find((modal) => modal.name === name)?.visible),
+      1
+    );
   }, [modalList, name]);
 
-  useEffect(() => {
-    console.log('isVisible', isVisible);
-  }, [isVisible]);
-
   const onModalEnter = () => {
-    console.log(nodeRef.current, modalSpeed);
     gsap.fromTo(
       nodeRef.current,
       {

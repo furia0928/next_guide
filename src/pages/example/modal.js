@@ -65,7 +65,9 @@ const BasicModal = () => {
         onClick={() => {
           alert({ title: 'asdfasdf' });
         }}
-      ></Button>
+      >
+        알랏
+      </Button>
     </Modal>
   );
 };

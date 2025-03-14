@@ -6,17 +6,17 @@ import Button from '@/components/buttons/Button/Button';
 const Alert = () => {
   const { modalList, modalClose } = useModalStore();
 
-  const alertArr = useMemo(() => {
+  const alertList = useMemo(() => {
     return modalList.filter((modal) => modal.name.includes('alert'));
   }, [modalList]);
 
   useEffect(() => {
-    console.log('alertArr', alertArr);
-  }, [alertArr]);
+    console.log('alertList', alertList);
+  }, [alertList]);
 
   return (
     <>
-      {alertArr.map((alertData) => {
+      {alertList.map((alertData) => {
         return (
           <Modal
             key={alertData.name}
