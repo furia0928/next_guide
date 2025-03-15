@@ -1,4 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {
+  useEffect,
+  useRef,
+  useState,
+  useMemo,
+  useCallback,
+} from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import { Transition } from 'react-transition-group';
@@ -21,7 +27,7 @@ const CloseIcon = () => (
   </svg>
 );
 
-const Modal = ({
+const ModalComponent = ({
   title,
   name,
   children,
@@ -35,33 +41,115 @@ const Modal = ({
   const [isVisible, setIsVisible] = useState(false);
   const { modalList, modalClose, modalSpeed } = useModalStore();
   const nodeRef = useRef(null);
-  const timeoutRef = useRef(null);
+  const contentRef = useRef(null);
+  const titleId = useMemo(() => `modal-title-${name}`, [name]);
+  const contentId = useMemo(() => `modal-content-${name}`, [name]);
+  const previousFocusRef = useRef(null);
 
-  useEffect(() => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
-    timeoutRef.current = setTimeout(() => {
-      const modalItem = modalList.find((modal) => modal.name === name);
-      setIsVisible(!!modalItem?.visible); // undefined 방지
-    }, 1);
-    return () => clearTimeout(timeoutRef.current);
+  const modalItem = useMemo(() => {
+    return modalList.find((modal) => modal.name === name);
   }, [modalList, name]);
 
-  const onModalEnter = () => {
+  useEffect(() => {
+    setIsVisible(!!modalItem?.visible);
+  }, [modalItem]);
+
+  // 포커스 트랩 및 관리
+  useEffect(() => {
+    if (!isVisible) return;
+
+    // 모달이 열릴 때 현재 포커스된 요소 저장
+    previousFocusRef.current = document.activeElement;
+
+    // 포커스 가능한 요소들을 찾는 함수
+    const getFocusableElements = () => {
+      if (!contentRef.current) return [];
+
+      const focusableSelectors = [
+        'button:not([disabled])',
+        'a[href]:not([disabled])',
+        'input:not([disabled])',
+        'select:not([disabled])',
+        'textarea:not([disabled])',
+        '[tabindex]:not([tabindex="-1"])',
+      ];
+
+      const focusableElements = Array.from(
+        contentRef.current.querySelectorAll(focusableSelectors.join(','))
+      );
+
+      return focusableElements;
+    };
+
+    // 초기 포커스 설정
+    const setInitialFocus = () => {
+      const focusableElements = getFocusableElements();
+      if (focusableElements.length) {
+        // 첫 번째 포커스 가능한 요소에 포커스
+        setTimeout(() => {
+          focusableElements[0].focus();
+        }, 50);
+      } else if (contentRef.current) {
+        // 포커스 가능한 요소가 없으면 컨테이너에 포커스
+        contentRef.current.focus();
+      }
+    };
+
+    // 탭 키 처리 함수
+    const handleTabKey = (e) => {
+      const focusableElements = getFocusableElements();
+      if (focusableElements.length === 0) return;
+
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+
+      // Shift + Tab을 누르고 첫 번째 요소에 포커스가 있는 경우
+      if (e.shiftKey && document.activeElement === firstElement) {
+        e.preventDefault();
+        lastElement.focus();
+      }
+      // Tab을 누르고 마지막 요소에 포커스가 있는 경우
+      else if (!e.shiftKey && document.activeElement === lastElement) {
+        e.preventDefault();
+        firstElement.focus();
+      }
+    };
+
+    // 키보드 이벤트 핸들러
+    const handleKeyDown = (e) => {
+      if (e.key === 'Tab') {
+        handleTabKey(e);
+      }
+    };
+
+    // 이벤트 리스너 등록
+    document.addEventListener('keydown', handleKeyDown);
+    setInitialFocus();
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      // 모달이 닫힐 때 이전 포커스로 복원
+      if (previousFocusRef.current) {
+        previousFocusRef.current.focus();
+      }
+    };
+  }, [isVisible]);
+
+  const onModalEnter = useCallback(() => {
     gsap.fromTo(
       nodeRef.current,
       { autoAlpha: 0, ease: 'power3.out' },
       { autoAlpha: 1, duration: modalSpeed / 1000, ease: 'power3.out' }
     );
-  };
-  const onModalExit = () => {
+  }, [modalSpeed]);
+
+  const onModalExit = useCallback(() => {
     gsap.fromTo(
       nodeRef.current,
       { autoAlpha: 1, ease: 'power3.out' },
       { autoAlpha: 0, duration: modalSpeed / 1000, ease: 'power3.inOut' }
     );
-  };
+  }, [modalSpeed]);
 
   // ESC 키로 모달 닫기
   useEffect(() => {
@@ -81,12 +169,15 @@ const Modal = ({
     };
   }, [isVisible, modalClose, name, closeOnEsc]);
 
-  // 오버레이 클릭 처리
-  const handleOverlayClick = (e) => {
-    if (closeOnOverlayClick && e.target === e.currentTarget) {
-      modalClose(name);
-    }
-  };
+  // 오버레이 클릭 처리를 useCallback으로 메모이제이션
+  const handleOverlayClick = useCallback(
+    (e) => {
+      if (closeOnOverlayClick && e.target === e.currentTarget) {
+        modalClose(name);
+      }
+    },
+    [closeOnOverlayClick, modalClose, name]
+  );
 
   if (typeof window === 'undefined') return <></>;
 
@@ -95,9 +186,7 @@ const Modal = ({
       nodeRef={nodeRef}
       timeout={modalSpeed}
       in={isVisible}
-      onEnter={() => {
-        onModalEnter();
-      }}
+      onEnter={onModalEnter}
       onExit={onModalExit}
       unmountOnExit={true}
     >
@@ -107,25 +196,43 @@ const Modal = ({
         ref={nodeRef}
         className={'test'}
       >
-        <div className="modal-container">
+        <div
+          className="modal-container"
+          ref={contentRef}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby={title ? titleId : undefined}
+          aria-describedby={contentId}
+          tabIndex="-1" // 컨테이너에 포커스할 수 있도록 설정
+        >
           {(title || showCloseButton) && (
             <div className="modal-header">
-              {title && <h2 className="modal-title">{title}</h2>}
+              {title && (
+                <h2 className="modal-title" id={titleId}>
+                  {title}
+                </h2>
+              )}
               {showCloseButton && (
                 <button
                   className="modal-close"
                   onClick={() => modalClose(name)}
-                  aria-label="닫기"
+                  aria-label="모달 닫기"
                 >
                   <CloseIcon />
                 </button>
               )}
             </div>
           )}
-          <div className="modal-content">{children}</div>
+          <div className="modal-content" id={contentId}>
+            {children}
+          </div>
           {footer && <div className="modal-footer">{footer}</div>}
         </div>
-        <div className="modal-overlay" onClick={handleOverlayClick}></div>
+        <div
+          className="modal-overlay"
+          onClick={handleOverlayClick}
+          aria-hidden="true"
+        ></div>
       </StyledModal>
     </Transition>
   );
@@ -135,7 +242,7 @@ const Modal = ({
   );
 };
 
-Modal.propTypes = {
+ModalComponent.propTypes = {
   name: PropTypes.string,
   title: PropTypes.node,
   children: PropTypes.node,
@@ -146,5 +253,8 @@ Modal.propTypes = {
   closeOnEsc: PropTypes.bool,
   showCloseButton: PropTypes.bool,
 };
+
+// React.memo를 사용하여 컴포넌트 메모이제이션
+const Modal = React.memo(ModalComponent);
 
 export default Modal;
