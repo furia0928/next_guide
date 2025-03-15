@@ -1,9 +1,9 @@
 import React, {
+  useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
-  useMemo,
-  useCallback,
 } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
@@ -50,6 +50,21 @@ const ModalComponent = ({
     return modalList.find((modal) => modal.name === name);
   }, [modalList, name]);
 
+  // 현재 모달이 최상위 모달인지 확인하는 함수
+  const isTopModal = useMemo(() => {
+    if (!isVisible) return false;
+
+    // 모달 목록이 비어있거나 현재 모달이 목록에 없으면 false
+    if (!modalList.length || !modalItem) return false;
+
+    // 보이는 모달 중에서 가장 마지막(최상위)에 있는 모달 찾기
+    const visibleModals = modalList.filter((modal) => modal.visible);
+    const topModal = visibleModals[visibleModals.length - 1];
+
+    // 현재 모달이 최상위 모달인지 확인
+    return topModal && topModal.name === name;
+  }, [modalList, modalItem, name, isVisible]);
+
   useEffect(() => {
     setIsVisible(!!modalItem?.visible);
   }, [modalItem]);
@@ -74,11 +89,9 @@ const ModalComponent = ({
         '[tabindex]:not([tabindex="-1"])',
       ];
 
-      const focusableElements = Array.from(
+      return Array.from(
         contentRef.current.querySelectorAll(focusableSelectors.join(','))
       );
-
-      return focusableElements;
     };
 
     // 초기 포커스 설정
@@ -154,7 +167,10 @@ const ModalComponent = ({
   // ESC 키로 모달 닫기
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (closeOnEsc && e.key === 'Escape' && isVisible) {
+      // 현재 모달이 최상위 모달이고, ESC 키를 눌렀을 때만 닫기
+      if (closeOnEsc && e.key === 'Escape' && isVisible && isTopModal) {
+        e.preventDefault(); // 이벤트 전파 방지
+        e.stopPropagation(); // 이벤트 버블링 방지
         modalClose(name);
       }
     };
@@ -167,7 +183,7 @@ const ModalComponent = ({
       document.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = ''; // 배경 스크롤 복원
     };
-  }, [isVisible, modalClose, name, closeOnEsc]);
+  }, [isVisible, modalClose, name, closeOnEsc, isTopModal]);
 
   // 오버레이 클릭 처리를 useCallback으로 메모이제이션
   const handleOverlayClick = useCallback(

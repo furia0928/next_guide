@@ -10,11 +10,11 @@ const getSizeStyles = (size) => {
       return css`
         padding: 0.6rem 1.2rem;
         font-size: 1.3rem;
-        line-height: 2.0rem;
+        line-height: 2rem;
       `;
     case 'medium':
       return css`
-        padding: 1.0rem 1.6rem;
+        padding: 1rem 1.6rem;
         font-size: 1.4rem;
         line-height: 2.2rem;
       `;
@@ -31,7 +31,7 @@ const getSizeStyles = (size) => {
       `;
     default:
       return css`
-        padding: 1.0rem 1.6rem;
+        padding: 1rem 1.6rem;
         font-size: 1.4rem;
         line-height: 2.2rem;
       `;
@@ -94,7 +94,6 @@ export const StyledButton = styled.button`
   transition: all 0.2s ease;
   position: relative;
   overflow: hidden;
-  outline: none;
 
   /* 크기 스타일 */
   ${({ size }) => getSizeStyles(size)}

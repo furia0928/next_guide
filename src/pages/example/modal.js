@@ -42,7 +42,7 @@ const BasicModal = () => {
 
 // 메인 예제 페이지 컴포넌트
 const ModalExample = () => {
-  const { confirm, alert, modalList, modalOpen } = useModalStore();
+  const { confirm, alert, modalList, modalOpen, modalZIndex } = useModalStore();
 
   return (
     <Container>
@@ -98,7 +98,6 @@ const ModalExample = () => {
         </ButtonGroup>
       </Section>
       <BasicModal />
-      {JSON.stringify(modalList)}
     </Container>
   );
 };

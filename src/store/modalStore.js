@@ -115,7 +115,17 @@ export const useModalStore = create(
 
       // 모든 모달 닫기
       modalCloseAll: () => {
-        set({ modalList: [] });
+        const { modalList } = get();
+        // 모든 모달의 resolve 함수 호출
+        modalList.forEach((modal) => {
+          if (modal.resolve) {
+            modal.resolve(false);
+          }
+        });
+
+        set({
+          modalList: [],
+        });
       },
     }),
     { name: 'modal-store' }
