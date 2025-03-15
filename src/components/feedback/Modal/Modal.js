@@ -87,10 +87,10 @@ const ModalComponent = ({
         'select:not([disabled])',
         'textarea:not([disabled])',
         '[tabindex]:not([tabindex="-1"])',
-      ];
+      ].join(',');
 
       return Array.from(
-        contentRef.current.querySelectorAll(focusableSelectors.join(','))
+        contentRef.current.querySelectorAll(focusableSelectors)
       );
     };
 
@@ -210,7 +210,7 @@ const ModalComponent = ({
         size={size}
         fullWidth={fullWidth}
         ref={nodeRef}
-        className={'test'}
+        className={`modal-${name}`}
       >
         <div
           className="modal-container"
