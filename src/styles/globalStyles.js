@@ -35,6 +35,14 @@ const globalStyles = (theme) => css`
     margin: 0;
   }
 
+  button {
+    border: none;
+    background: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+  }
+
   a {
     color: inherit;
     text-decoration: none;

@@ -1,34 +1,32 @@
-import React from 'react';
+import React, { useImperativeHandle, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { StyledInput } from './Input.styles';
+import BaseInput from '@/components/forms/Input/BaseInput';
 
-const Input = (
-  {
-    name,
-    type = 'text',
-    label,
-    placeholder,
-    value,
-    onChange,
-    onBlur,
-    onFocus,
-    error,
-    helperText,
-    validMessage,
-    disabled = false,
-    required = false,
-    fullWidth = false,
-    size = 'medium',
-    className,
-    ...rest
-  },
-  ref
-) => {
-  const handleChange = (e) => {
-    if (onChange) {
-      onChange(e);
-    }
-  };
+const Input = ({
+  name,
+  type = 'text',
+  label,
+  placeholder,
+  value,
+  onChange,
+  onBlur,
+  onFocus,
+  error,
+  helperText,
+  validMessage,
+  disabled = false,
+  required = false,
+  fullWidth = false,
+  size = 'medium',
+  suffix,
+  className,
+  innerRef,
+  ...rest
+}) => {
+  const inputRef = useRef(null);
+
+  useImperativeHandle(innerRef, () => inputRef.current, [inputRef]);
 
   return (
     <StyledInput
@@ -36,6 +34,7 @@ const Input = (
       error={!!error}
       disabled={disabled}
       className={className}
+      hasLabel={!!label}
     >
       {label && (
         <label className="input-label">
@@ -44,18 +43,22 @@ const Input = (
         </label>
       )}
 
-      <input
+      <BaseInput
         name={name}
         type={type}
+        placeholder={placeholder}
         value={value}
-        onChange={handleChange}
+        onChange={onChange}
         onBlur={onBlur}
         onFocus={onFocus}
-        placeholder={placeholder}
         disabled={disabled}
         required={required}
-        className={`input-field size-${size}`}
-        ref={ref}
+        suffix={suffix}
+        error={error}
+        fullWidth={fullWidth}
+        size={size}
+        className={`input-field size-${size} ${suffix ? 'has-suffix' : ''}`}
+        ref={innerRef || inputRef}
         {...rest}
       />
 
@@ -67,6 +70,7 @@ const Input = (
     </StyledInput>
   );
 };
+
 Input.propTypes = {
   /** 입력 필드의 name 속성 */
   name: PropTypes.string,
@@ -98,8 +102,15 @@ Input.propTypes = {
   fullWidth: PropTypes.bool,
   /** 입력 필드의 크기 (small, medium, large) */
   size: PropTypes.oneOf(['small', 'medium', 'large']),
+  /** 입력 필드 오른쪽에 표시될 요소(버튼, 아이콘 등) */
+  suffix: PropTypes.node,
   /** 추가 CSS 클래스 */
   className: PropTypes.string,
+  /** ref를 전달하기 위한 prop */
+  innerRef: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.any }),
+  ]),
 };
 
 export default Input;

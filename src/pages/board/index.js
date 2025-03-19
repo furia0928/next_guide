@@ -24,6 +24,8 @@ export default function Board({ initialData }) {
     data: posts,
     error,
     mutate,
+    isValidating,
+    isLoading,
   } = useSWR('/posts', {
     fallbackData: initialData['/posts'],
   });

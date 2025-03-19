@@ -38,6 +38,7 @@ const FormField = ({
   const childProps = {
     ...registerProps,
     name,
+    label,
     error: hasError ? errors[name]?.message : '',
     validMessage: isValid ? validationMessage || defaultValidMessage : '',
     checked:
@@ -50,11 +51,6 @@ const FormField = ({
     },
     ...props,
   };
-
-  // 자식 컴포넌트가 label을 가지고 있지 않은 경우에만 label prop을 전달
-  if (label && !children.props.label) {
-    childProps.label = label;
-  }
 
   return (
     <StyledFormField fullWidth={fullWidth}>

@@ -118,15 +118,14 @@ const InputEx = () => {
             <h2>기본 입력 필드</h2>
             <FormField
               name="username"
-              label="사용자 이름"
-              validationMessage="✓ 올바른 형식입니다"
-              fullWidth
+              validationMessage="✓ 올바른 형식입니다22"
             >
               <Input
+                label="사용자 이름"
                 placeholder="사용자 이름을 입력하세요"
                 required
                 fullWidth
-                disabled
+                suffix={<span>123</span>}
               />
             </FormField>
           </Section>
@@ -135,11 +134,10 @@ const InputEx = () => {
             <h2>유효성 검사 입력 필드</h2>
             <FormField
               name="email"
-              label="이메일"
               validationMessage="✓ 올바른 이메일 형식입니다"
-              fullWidth
             >
               <Input
+                label="이메일"
                 type="email"
                 placeholder="이메일을 입력하세요"
                 required
@@ -152,11 +150,10 @@ const InputEx = () => {
             <h2>필수 입력 필드</h2>
             <FormField
               name="password"
-              label="비밀번호"
               validationMessage="✓ 안전한 비밀번호입니다"
-              fullWidth
             >
               <Input
+                label="비밀번호"
                 type="password"
                 placeholder="비밀번호를 입력하세요"
                 helperText="대문자, 소문자, 숫자, 특수문자를 포함한 8자 이상의 비밀번호를 입력해주세요"
@@ -168,8 +165,8 @@ const InputEx = () => {
 
           <Section>
             <h2>비활성화된 입력 필드</h2>
-            <FormField name="disabled" label="비활성화됨" fullWidth>
-              <Input disabled fullWidth />
+            <FormField name="disabled">
+              <Input label="비활성화됨" disabled fullWidth />
             </FormField>
           </Section>
 
@@ -379,7 +376,8 @@ const ValidationStatus = styled.div`
   padding: 1.6rem;
   background-color: ${theme.colors.gray100};
   border-radius: 0.4rem;
-  border-left: 0.4rem solid ${(props) => (props.error ? theme.colors.error : theme.colors.success)};
+  border-left: 0.4rem solid
+    ${(props) => (props.error ? theme.colors.error : theme.colors.success)};
   transition: border-color 0.3s ease;
 
   h3 {
@@ -391,7 +389,7 @@ const ValidationStatus = styled.div`
   ul {
     list-style: none;
     padding: 0;
-    font-size: 1.4rem;  
+    font-size: 1.4rem;
   }
 
   li {

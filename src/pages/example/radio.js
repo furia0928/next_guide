@@ -153,7 +153,9 @@ const RadioEx = () => {
                   value="monthly"
                   label="월간 구독"
                   error={!!errors.subscription}
-                  helperText={errors.subscription ? errors.subscription.message : null}
+                  helperText={
+                    errors.subscription ? errors.subscription.message : null
+                  }
                   {...formMethods.register('subscription')}
                   checked={values.subscription === 'monthly'}
                 />
@@ -219,7 +221,11 @@ const RadioEx = () => {
               validationMessage="✓ 경험 수준이 선택되었습니다"
             >
               <div className="styled-radio-group">
-                <label className={`styled-radio-item ${values.experience === 'beginner' ? 'selected' : ''}`}>
+                <label
+                  className={`styled-radio-item ${
+                    values.experience === 'beginner' ? 'selected' : ''
+                  }`}
+                >
                   <Radio
                     id="beginner"
                     name="experience"
@@ -227,7 +233,11 @@ const RadioEx = () => {
                     label="초보자"
                     error={!!errors.experience}
                     required
-                    helperText={values.experience === 'beginner' ? "초보자를 위한 기본 과정을 추천합니다." : null}
+                    helperText={
+                      values.experience === 'beginner'
+                        ? '초보자를 위한 기본 과정을 추천합니다.'
+                        : null
+                    }
                     {...formMethods.register('experience')}
                     checked={values.experience === 'beginner'}
                   />
@@ -236,14 +246,22 @@ const RadioEx = () => {
                   </div>
                 </label>
 
-                <label className={`styled-radio-item ${values.experience === 'intermediate' ? 'selected' : ''}`}>
+                <label
+                  className={`styled-radio-item ${
+                    values.experience === 'intermediate' ? 'selected' : ''
+                  }`}
+                >
                   <Radio
                     id="intermediate"
                     name="experience"
                     value="intermediate"
                     label="중급자"
                     error={!!errors.experience}
-                    helperText={values.experience === 'intermediate' ? "중급자를 위한 심화 과정을 추천합니다." : null}
+                    helperText={
+                      values.experience === 'intermediate'
+                        ? '중급자를 위한 심화 과정을 추천합니다.'
+                        : null
+                    }
                     {...formMethods.register('experience')}
                     checked={values.experience === 'intermediate'}
                   />
@@ -252,14 +270,22 @@ const RadioEx = () => {
                   </div>
                 </label>
 
-                <label className={`styled-radio-item ${values.experience === 'advanced' ? 'selected' : ''}`}>
+                <label
+                  className={`styled-radio-item ${
+                    values.experience === 'advanced' ? 'selected' : ''
+                  }`}
+                >
                   <Radio
                     id="advanced"
                     name="experience"
                     value="advanced"
                     label="고급자"
                     error={!!errors.experience}
-                    helperText={values.experience === 'advanced' ? "고급자를 위한 전문가 과정을 추천합니다." : null}
+                    helperText={
+                      values.experience === 'advanced'
+                        ? '고급자를 위한 전문가 과정을 추천합니다.'
+                        : null
+                    }
                     {...formMethods.register('experience')}
                     checked={values.experience === 'advanced'}
                   />
@@ -322,7 +348,9 @@ const RadioEx = () => {
               </div>
             </div>
 
-            <div className={`validation-status ${Object.keys(errors).length > 0 ? 'error' : ''}`}>
+            <div
+              className={`validation-status ${Object.keys(errors).length > 0 ? 'error' : ''}`}
+            >
               <h3>유효성 검사 상태</h3>
               <ul>
                 {Object.entries(errors).map(([field, error]) => (
@@ -335,7 +363,9 @@ const RadioEx = () => {
                 )}
               </ul>
             </div>
-            <pre className="code-preview">{JSON.stringify(values, null, 2)}</pre>
+            <pre className="code-preview">
+              {JSON.stringify(values, null, 2)}
+            </pre>
           </section>
 
           <div className="button-group">
@@ -521,7 +551,7 @@ const Container = styled.div`
     ul {
       list-style: none;
       padding: 0;
-      font-size: 1.4rem;  
+      font-size: 1.4rem;
     }
 
     li {
@@ -609,4 +639,4 @@ const Container = styled.div`
   }
 `;
 
-export default RadioEx; 
+export default RadioEx;

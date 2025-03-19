@@ -1,6 +1,6 @@
 ---
 description: base rule
-globs: 
+globs: *.js, *.jsx
 alwaysApply: false
 ---
 ---
